@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Centralize/constants/constants.dart';
 import 'package:Centralize/ui/widgets/custom_shape.dart';
-import 'package:Centralize/ui/widgets/customappbar.dart';
 import 'package:Centralize/ui/widgets/responsive_ui.dart';
 import 'package:Centralize/ui/widgets/textformfield.dart';
-
-
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -22,16 +19,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
-    _large =  ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
-    _medium =  ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
+    _large = ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
+    _medium = ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
 
     return Material(
       child: SafeArea(
-              child: Scaffold(
+        child: Scaffold(
           body: Container(
             height: _height,
             width: _width,
@@ -39,17 +35,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-               //   Opacity(opacity: 0.88,child: CustomAppBar()),
+                
+                   
                   clipShape(),
-                  SizedBox(height: _height/10,),
-                  usingEmail(),
-                  //form(),
-                //  acceptTermsTextRow(),
-                  SizedBox(height: _height/10,),
-                 // button(),
                   infoTextRow(),
                   socialIconsRow(),
-                  //signInTextRow(),
+                  
+                  orsignUPText(),
+                 
+                  //usingEmail(),
+                  form(),
+                    acceptTermsTextRow(),
+                  SizedBox(
+                    height: _height / 35,
+                  ),
+                   button(),
+                   signInTextRow(),
                 ],
               ),
             ),
@@ -62,69 +63,68 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget clipShape() {
     return Stack(
       children: <Widget>[
-           Opacity(
+        Opacity(
           opacity: 0.8,
           child: ClipPath(
-            clipper: CustomShapeClipper2(),
+            clipper: CustomShapeClipper3(),
             child: Container(
-              height: _large? _height/4.5 : (_medium? _height/4.25 : _height/4),
+              height: _large
+                  ? _height / 7.0
+                  : (_medium ? _height / 6.5 : _height / 6),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue[100], Colors.blue],
+               gradient: LinearGradient(
+                  colors: [Colors.deepPurple[100], Colors.deepPurple],
                 ),
               ),
             ),
           ),
         ),
-        Container( alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.only(top: 60,left: 16),
-          child: Text(
-            "Sign Up",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-              fontSize: _large? 40 : (_medium? 30 : 25),
-              color: Colors.black87
-            ),
-          ),
-    ),
-     
-        /*
-         Opacity(
-          opacity: 0.5,
+        Opacity(
+          opacity: 0.8,
           child: ClipPath(
-            clipper: CustomShapeClipper2(),
+            clipper: CustomShapeClipper4(),
             child: Container(
-              height: _large? _height/12 : (_medium? _height/11 : _height/10),
+              height: _large
+                  ? _height / 6.5
+                  : (_medium ? _height / 6.0 : _height / 5.5),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.orange[200], Colors.pinkAccent],
+                  colors: [Colors.deepPurple[100], Colors.deepPurple],
                 ),
               ),
             ),
           ),
         ),
-        Container(
-          height: _height / 5.5,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0.0,
-                  color: Colors.black26,
-                  offset: Offset(1.0, 10.0),
-                  blurRadius: 20.0),
-            ],
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-          child: GestureDetector(
-              onTap: (){
-                print('Adding photo');
-              },
+          Padding(
+            padding: const EdgeInsets.only(top:12.0),
+            child: Row(
+              
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () =>  Navigator.pop(context),
+                            child: Padding(
+                    padding: const EdgeInsets.only(left:8.0),
+                    child: Icon(Icons.arrow_back_ios,color: Colors.white,size: 30,),
+                  ),
+                ),
 
-              child: Icon(Icons.add_a_photo, size: _large? 40: (_medium? 33: 31),color: Colors.orange[200],)),
+                   Container(
+            margin: EdgeInsets.only( left: 16),
+            child: Text(
+              "Sign Up",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  fontSize: _large ? 40 : (_medium ? 30 : 25),
+                  color: Colors.white),
+            ),
         ),
+              ],
+            ),
+          ),
+     
+
+       
 //        Positioned(
 //          top: _height/8,
 //          left: _width/1.75,
@@ -143,15 +143,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 //                child: Icon(Icons.add_a_photo, size: _large? 22: (_medium? 15: 13),)),
 //          ),
 //        ),
-      */],
+      
+      ],
     );
   }
 
-Widget usingEmail(){
-  return Center(
-    child: RaisedButton(
+  Widget usingEmail() {
+    return Center(
+      child: RaisedButton(
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         onPressed: () {
           print("Routing to your account");
         },
@@ -161,7 +163,7 @@ Widget usingEmail(){
         child: Container(
           alignment: Alignment.center,
 //        height: _height / 20,
-          width:_large? _width/2 : (_medium? _width/1.75: _width/1.5),
+          width: _large ? _width / 1.5 : (_medium ? _width / 1.25 : _width / 1.20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             border: Border.all(
@@ -173,31 +175,30 @@ Widget usingEmail(){
                   ),*/
           ),
           padding: const EdgeInsets.all(12.0),
-          child: Text('Sign up using Email', style: TextStyle(
-            
-            
-            fontSize: _large? 16: (_medium? 15: 14)),),
+          child: Text(
+            'Sign up using Email',
+            style: TextStyle(fontSize: _large ? 16 : (_medium ? 15 : 14)),
+          ),
         ),
       ),
-  );
-}
+    );
+  }
+
   Widget form() {
     return Container(
       margin: EdgeInsets.only(
-          left:_width/ 12.0,
-          right: _width / 12.0,
-          top: _height / 20.0),
+          left: _width / 12.0, right: _width / 12.0, top: _height / 40.0),
       child: Form(
         child: Column(
           children: <Widget>[
             firstNameTextFormField(),
-            SizedBox(height: _height / 60.0),
+            SizedBox(height: _height / 90.0),
             lastNameTextFormField(),
-            SizedBox(height: _height/ 60.0),
+            SizedBox(height: _height / 90.0),
             emailTextFormField(),
-            SizedBox(height: _height / 60.0),
+            SizedBox(height: _height / 90.0),
             phoneTextFormField(),
-            SizedBox(height: _height / 60.0),
+            SizedBox(height: _height / 90.0),
             passwordTextFormField(),
           ],
         ),
@@ -262,7 +263,9 @@ Widget usingEmail(){
               }),
           Text(
             "I accept all terms and conditions",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 12: (_medium? 11: 10)),
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: _large ? 12 : (_medium ? 11 : 10)),
           ),
         ],
       ),
@@ -281,28 +284,34 @@ Widget usingEmail(){
       child: Container(
         alignment: Alignment.center,
 //        height: _height / 20,
-        width:_large? _width/4 : (_medium? _width/3.75: _width/3.5),
+        width: _large ? _width / 4 : (_medium ? _width / 3.75 : _width / 3.5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-           gradient:  LinearGradient(
-                  colors: [Colors.blue[100], Colors.blue],
-                ),
+          gradient: LinearGradient(
+            colors: [Colors.deepPurple[100], Colors.deepPurple],
+          ),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN UP', style: TextStyle(fontSize: _large? 14: (_medium? 12: 10)),),
+        child: Text(
+          'SIGN UP',
+          style: TextStyle(fontSize: _large ? 14 : (_medium ? 12 : 10)),
+        ),
       ),
     );
   }
 
   Widget infoTextRow() {
     return Container(
-      margin: EdgeInsets.only(top: _height / 40.0),
+     //s margin: EdgeInsets.only(top: _height / 60.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Or create using social media",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 14: (_medium? 13: 12)),
+            "Create account using social media",
+            style: TextStyle(
+            
+                fontWeight: FontWeight.w400,
+                fontSize: _large ? 14 : (_medium ? 13 : 12)),
           ),
         ],
       ),
@@ -311,64 +320,61 @@ Widget usingEmail(){
 
   Widget socialIconsRow() {
     return Container(
-      margin: EdgeInsets.only(top: _height / 60.0),
+      margin: EdgeInsets.only(top: _height / 68.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-
-        Material(
-  elevation: 3.0,
-  shape: CircleBorder(),
-  clipBehavior: Clip.hardEdge,
-  color: Colors.transparent,
-  child: Ink.image(
-    image: AssetImage('assets/images/googlelogo.png'),
-    fit: BoxFit.fill,
-    width: 60.0,
-    height: 60.0,
-    child: InkWell(
-      onTap: () {},
-    ),
-  ),
-),
-  SizedBox(
-            width: 20,
+          Material(
+            elevation: 3.0,
+            shape: CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.transparent,
+            child: Ink.image(
+              image: AssetImage('assets/images/googlelogo.png'),
+              fit: BoxFit.fill,
+              width: 45.0,
+              height: 45.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
           ),
-           Material(
-  elevation: 3.0,
-  shape: CircleBorder(
-    side: BorderSide(width: 0)
-  ),
-  clipBehavior: Clip.hardEdge,
-  color: Colors.white,
-  child: Ink.image(
-    image: AssetImage('assets/images/fblogo.jpg'),
-    fit: BoxFit.scaleDown,
-    width: 60.0,
-    height: 60.0,
-    child: InkWell(
-      onTap: () {},
-    ),
-  ),
-),
           SizedBox(
             width: 20,
           ),
-         Material(
-  elevation: 3.0,
-  shape: CircleBorder(),
-  clipBehavior: Clip.hardEdge,
-  color: Colors.white,
-  child: Ink.image(
-    image: AssetImage('assets/images/twitterlogo.jpg'),
-    fit: BoxFit.cover,
-    width: 60.0,
-    height: 60.0,
-    child: InkWell(
-      onTap: () {},
-    ),
-  ),
-),
+          Material(
+            elevation: 3.0,
+            shape: CircleBorder(side: BorderSide(width: 0)),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.white,
+            child: Ink.image(
+              image: AssetImage('assets/images/fblogo.jpg'),
+              fit: BoxFit.scaleDown,
+              width: 45.0,
+              height: 45.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Material(
+            elevation: 3.0,
+            shape: CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.white,
+            child: Ink.image(
+              image: AssetImage('assets/images/twitterlogo.jpg'),
+              fit: BoxFit.cover,
+              width: 45.0,
+              height: 45.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -376,13 +382,15 @@ Widget usingEmail(){
 
   Widget signInTextRow() {
     return Container(
-      margin: EdgeInsets.only(top: _height / 20.0),
+      margin: EdgeInsets.only(top: _height / 45.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             "Already have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400),
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400),
           ),
           SizedBox(
             width: 5,
@@ -395,10 +403,23 @@ Widget usingEmail(){
             child: Text(
               "Sign in",
               style: TextStyle(
-                  fontWeight: FontWeight.w800, color: Colors.orange[200], fontSize: 19),
+                  fontWeight: FontWeight.w800,
+                  color: Colors.deepPurple,
+                  fontSize: 19),
             ),
           )
         ],
+      ),
+    );
+  }
+  Widget orsignUPText() {
+    return Container(
+      margin: EdgeInsets.only(top: _height / 45.0),
+      child: Text(
+        "Or sign Up using email",
+        style: TextStyle(
+         
+          fontWeight: FontWeight.w400),
       ),
     );
   }

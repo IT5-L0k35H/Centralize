@@ -48,11 +48,15 @@ class _SignInScreenState extends State<SignInScreen> {
               children: <Widget>[
                 clipShape(),
                 //welcomeTextRow(),
-                signInTextRow(),
+               // signInTextRow(),
                 form(),
                 forgetPassTextRow(),
-                SizedBox(height: _height / 12),
+                SizedBox(height: _height / 30),
                 button(),
+                 SizedBox(height: _height / 20),
+                  infoTextRow(),
+                  socialIconsRow(),
+                   SizedBox(height: _height / 12),
                 signUpTextRow(),
               ],
             ),
@@ -76,24 +80,60 @@ class _SignInScreenState extends State<SignInScreen> {
                   : (_medium ? _height / 4.25 : _height / 4),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue[100], Colors.blue],
+                  colors: [Colors.deepPurple[100], Colors.deepPurple],
                 ),
               ),
             ),
           ),
         ),
-        Container(
-          alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.only(top: 60, left: 16),
-          child: Text(
-            "Welcome",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
-                fontSize: _large ? 40 : (_medium ? 30 : 25),
-                color: Colors.black87),
+       
+        Opacity(
+          opacity: 0.8,
+          child: ClipPath(
+            clipper: CustomShapeClipper(),
+            child: Container(
+              height: _large
+                  ? _height / 4.5
+                  : (_medium ? _height / 4.25 : _height / 4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.deepPurple[100], Colors.deepPurple],
+                ),
+              ),
+            ),
           ),
         ),
+       
+        Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.bottomLeft,
+              margin: EdgeInsets.only(top: 40, left: 16),
+              child: Text(
+                "Welcome",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                    fontSize: _large ? 40 : (_medium ? 30 : 25),
+                    color: Colors.white),
+              ),
+            ),
+            Container(
+      alignment: Alignment.bottomLeft,
+      margin: EdgeInsets.only(left: 16),
+      child: Text(
+        "Sign in to your account",
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          color: Colors.white,
+          fontWeight: FontWeight.normal,
+          fontSize: _large ? 20 : (_medium ? 18 : 16),
+        ),
+      ),
+    ),
+          ],
+        ),
+        
       ],
     );
   }
@@ -117,7 +157,7 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-*/
+*//*
   Widget signInTextRow() {
     return Container(
       alignment: Alignment.topLeft,
@@ -126,18 +166,20 @@ class _SignInScreenState extends State<SignInScreen> {
         "Sign in to your account",
         style: TextStyle(
           fontFamily: 'Poppins',
+          color: Colors.white,
           fontWeight: FontWeight.normal,
           fontSize: _large ? 24 : (_medium ? 20 : 17),
         ),
       ),
     );
-  }
+  }*/
 
   Widget form() {
     return Container(
       margin: EdgeInsets.only(
           left: _width / 12.0, right: _width / 12.0, top: _height / 15.0),
       child: Form(
+        
         key: _key,
         child: Column(
           children: <Widget>[
@@ -152,6 +194,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget emailTextFormField() {
     return CustomTextField(
+      
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
       icon: Icons.email,
@@ -163,8 +206,8 @@ class _SignInScreenState extends State<SignInScreen> {
     return CustomTextField(
       keyboardType: TextInputType.visiblePassword,
       textEditingController: passwordController,
-      icon: Icons.lock,
-      obscureText: true,
+      icon: IconData(0xe0e6, fontFamily: 'MaterialIcons',),
+    
       hint: "Password",
     );
   }
@@ -190,7 +233,7 @@ class _SignInScreenState extends State<SignInScreen> {
             },
             child: Text(
               "Recover",
-              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.blue),
+              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.deepPurple),
             ),
           )
         ],
@@ -217,7 +260,7 @@ class _SignInScreenState extends State<SignInScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
-            colors: [Colors.blue[100], Colors.blue],
+            colors: [Colors.deepPurple[100], Colors.deepPurple],
           ),
         ),
         padding: const EdgeInsets.all(12.0),
@@ -251,7 +294,7 @@ class _SignInScreenState extends State<SignInScreen> {
               "Sign up",
               style: TextStyle(
                   fontWeight: FontWeight.w800,
-                  color: Colors.blue,
+                  color: Colors.deepPurple,
                   fontSize: _large ? 19 : (_medium ? 17 : 15)),
             ),
           )
@@ -259,4 +302,84 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+  
+  Widget infoTextRow() {
+    return Container(
+      margin: EdgeInsets.only(top: _height / 40.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Sign in using social media",
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: _large ? 14 : (_medium ? 13 : 12)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget socialIconsRow() {
+    return Container(
+      margin: EdgeInsets.only(top: _height / 60.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Material(
+            elevation: 3.0,
+            shape: CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.transparent,
+            child: Ink.image(
+              image: AssetImage('assets/images/googlelogo.png'),
+              fit: BoxFit.fill,
+              width: 50.0,
+              height: 50.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Material(
+            elevation: 3.0,
+            shape: CircleBorder(side: BorderSide(width: 0)),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.white,
+            child: Ink.image(
+              image: AssetImage('assets/images/fblogo.jpg'),
+              fit: BoxFit.scaleDown,
+              width: 50.0,
+              height: 50.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Material(
+            elevation: 3.0,
+            shape: CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.white,
+            child: Ink.image(
+              image: AssetImage('assets/images/twitterlogo.jpg'),
+              fit: BoxFit.cover,
+              width: 50.0,
+              height: 50.0,
+              child: InkWell(
+                onTap: () {},
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
