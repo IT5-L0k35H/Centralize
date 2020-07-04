@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Centralize/constants/constants.dart';
-import 'package:Centralize/ui/widgets/custom_shape.dart';
-import 'package:Centralize/ui/widgets/responsive_ui.dart';
-import 'package:Centralize/ui/widgets/textformfield.dart';
+import 'package:Centralize/screens/authentication/widgets/custom_shape.dart';
+import 'package:Centralize/widgets/responsive_ui.dart';
+import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -330,7 +330,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             clipBehavior: Clip.hardEdge,
             color: Colors.transparent,
             child: Ink.image(
-              image: AssetImage('assets/images/googlelogo.png'),
+              image: AssetImage('assets/images/auth/googlelogo.png'),
               fit: BoxFit.fill,
               width: 45.0,
               height: 45.0,
@@ -348,7 +348,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             clipBehavior: Clip.hardEdge,
             color: Colors.white,
             child: Ink.image(
-              image: AssetImage('assets/images/fblogo.jpg'),
+              image: AssetImage('assets/images/auth/fblogo.jpg'),
               fit: BoxFit.scaleDown,
               width: 45.0,
               height: 45.0,
@@ -366,7 +366,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             clipBehavior: Clip.hardEdge,
             color: Colors.white,
             child: Ink.image(
-              image: AssetImage('assets/images/twitterlogo.jpg'),
+              image: AssetImage('assets/images/auth/twitterlogo.jpg'),
               fit: BoxFit.cover,
               width: 45.0,
               height: 45.0,

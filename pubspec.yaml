@@ -51,16 +51,7 @@ flutter:
 
 
   assets:
-    - assets/images/ic_imslogo.png
-    - assets/images/googlelogo.png
-    - assets/images/fblogo.jpg
-    - assets/images/twitterlogo.jpg
-    - assets/images/ulogo.png
-    - assets/images/ulogo.jpg
-    - assets/images/login.png
-    - assets/images/logo.png
-    - assets/images/powered_by.png
-  
+    - assets/images/auth/s
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
