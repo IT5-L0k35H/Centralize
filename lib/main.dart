@@ -14,30 +14,29 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  statusBarColor: Colors.transparent,
-  statusBarIconBrightness: Brightness.dark,
-));
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ));
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: Constants.appName,
-      theme: Constants.lightTheme,
-      darkTheme: Constants.darkTheme,
-      routes: <String, WidgetBuilder>{
-        SPLASH_SCREEN: (BuildContext context) => SplashScreen(),
-       //MAIN_SCREEN:(BuildContext context)=> MainScreen(),
-       SIGN_IN: (BuildContext context) => SignInPage(),
-        SIGN_UP: (BuildContext context) => SignUpScreen(),
-      },
-      initialRoute: SPLASH_SCREEN,
-      home: ClipRRect(
+        debugShowCheckedModeBanner: false,
+        title: Constants.appName,
+        theme: Constants.lightTheme,
+        darkTheme: Constants.darkTheme,
+        routes: <String, WidgetBuilder>{
+          SPLASH_SCREEN: (BuildContext context) => SplashScreen(),
+          //MAIN_SCREEN: (BuildContext context) => MainScreen(),
+         // SIGN_IN: (BuildContext context) => SignInPage(),
+          //SIGN_UP: (BuildContext context) => SignUpScreen(),
+        },
+        initialRoute: SPLASH_SCREEN,
+        home: ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: MainScreen(),
-        )
-    );
+          child: SplashScreen(),
+        ));
   }
 }

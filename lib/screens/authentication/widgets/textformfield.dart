@@ -33,20 +33,23 @@ class CustomTextField extends StatelessWidget {
       borderRadius: BorderRadius.circular(50.0),
       shadowColor: Colors.deepPurple,
       
-     elevation: large? 2 : (medium? 1.5 :1),
+    // elevation: large? 2 : (medium? 1.5 :1),
       child: TextFormField(
         controller: textEditingController,
         keyboardType: keyboardType,
         cursorColor: Colors.orange[200],
         decoration: InputDecoration(
-          
-          
-          prefixIcon: Icon(icon, color: Colors.orange[300], size: 22),
+      /*    enabledBorder: const OutlineInputBorder(
+      // width: 0.0 produces a thin "hairline" border
+      borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+    ),
+        */  
+          prefixIcon: Icon(icon, color: Colors.orange[300], size: 23),
           hintText: hint,
-          border: OutlineInputBorder(
+         /* border:  OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.0),
               borderSide: BorderSide.none),
-             
+             */
         ),
       ),
     );

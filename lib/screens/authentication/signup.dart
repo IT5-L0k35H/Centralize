@@ -38,6 +38,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 
                    
                   clipShape(),
+                   SizedBox(
+                    height: _height / 15,
+                  ),
                   infoTextRow(),
                   socialIconsRow(),
                   
@@ -63,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget clipShape() {
     return Stack(
       children: <Widget>[
-        Opacity(
+       /* Opacity(
           opacity: 0.8,
           child: ClipPath(
             clipper: CustomShapeClipper3(),
@@ -95,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
         ),
-          Padding(
+       */   Padding(
             padding: const EdgeInsets.only(top:12.0),
             child: Row(
               
@@ -104,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onTap: () =>  Navigator.pop(context),
                             child: Padding(
                     padding: const EdgeInsets.only(left:8.0),
-                    child: Icon(Icons.arrow_back_ios,color: Colors.white,size: 30,),
+                    child: Icon(Icons.arrow_back_ios,color: Colors.deepPurple[600],size: 30,),
                   ),
                 ),
 
@@ -116,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                   fontSize: _large ? 40 : (_medium ? 30 : 25),
-                  color: Colors.white),
+                  color: Colors.deepPurple[600]),
             ),
         ),
               ],
@@ -324,7 +327,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Material(
+         OutlineButton(
+      splashColor: Colors.grey,
+      onPressed: () {},
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.grey),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+         /* Material(
             elevation: 3.0,
             shape: CircleBorder(),
             clipBehavior: Clip.hardEdge,
@@ -338,7 +368,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onTap: () {},
               ),
             ),
-          ),
+          ),*/
           SizedBox(
             width: 20,
           ),
@@ -347,34 +377,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
             shape: CircleBorder(side: BorderSide(width: 0)),
             clipBehavior: Clip.hardEdge,
             color: Colors.white,
-            child: Ink.image(
-              image: AssetImage('assets/images/auth/fblogo.jpg'),
-              fit: BoxFit.scaleDown,
-              width: 45.0,
-              height: 45.0,
-              child: InkWell(
-                onTap: () {},
-              ),
+            child: Row(
+              children: <Widget>[
+                Ink.image(
+                  image: AssetImage('assets/images/auth/fblogo.jpg'),
+                  fit: BoxFit.scaleDown,
+                  width: 45.0,
+                  height: 45.0,
+                  child: InkWell(
+                    onTap: () {},
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
             width: 20,
           ),
-          Material(
-            elevation: 3.0,
-            shape: CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.white,
-            child: Ink.image(
-              image: AssetImage('assets/images/auth/twitterlogo.jpg'),
-              fit: BoxFit.cover,
-              width: 45.0,
-              height: 45.0,
-              child: InkWell(
-                onTap: () {},
-              ),
-            ),
-          ),
+        
         ],
       ),
     );
@@ -397,7 +417,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pop(SIGN_IN);
+              Navigator.pop(context);
               print("Routing to Sign up screen");
             },
             child: Text(

@@ -1,4 +1,5 @@
 import 'package:Centralize/screens/MainScreen.dart';
+import 'package:Centralize/screens/authentication/signup.dart';
 import 'package:Centralize/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/constants/constants.dart';
@@ -71,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
     //double height = MediaQuery.of(context).size.height;
     return Stack(
       children: <Widget>[
-        Opacity(
+        /*Opacity(
           opacity: 0.8,
           child: ClipPath(
             clipper: CustomShapeClipper2(),
@@ -103,7 +104,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
         ),
-        Column(
+       */ Column(
           children: <Widget>[
             Container(
               alignment: Alignment.bottomLeft,
@@ -114,7 +115,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Poppins',
                     fontSize: _large ? 40 : (_medium ? 30 : 25),
-                    color: Colors.white),
+                    color: Colors.deepPurple[600]),
               ),
             ),
             Container(
@@ -124,7 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 "Sign in to your account",
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  color: Colors.white,
+                  color: Colors.deepPurple[300],
                   fontWeight: FontWeight.normal,
                   fontSize: _large ? 20 : (_medium ? 18 : 16),
                 ),
@@ -135,42 +136,6 @@ class _SignInScreenState extends State<SignInScreen> {
       ],
     );
   }
-
-/*
-  Widget welcomeTextRow() {
-    return Container(
-      margin: EdgeInsets.only(left: _width / 20, top: _height / 100),
-      child: Row(
-        children: <Widget>[
-          Text(
-            "Welcome",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-              fontSize: _large? 50 : (_medium? 40 : 30),
-              color: Colors.black87
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-*/ /*
-  Widget signInTextRow() {
-    return Container(
-      alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 16),
-      child: Text(
-        "Sign in to your account",
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: Colors.white,
-          fontWeight: FontWeight.normal,
-          fontSize: _large ? 24 : (_medium ? 20 : 17),
-        ),
-      ),
-    );
-  }*/
 
   Widget form() {
     return Container(
@@ -286,7 +251,7 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(SIGN_UP);
+              Navigator.push(context,MaterialPageRoute(builder: (context) => SignUpScreen()));
               print("Routing to Sign up screen");
             },
             child: Text(
