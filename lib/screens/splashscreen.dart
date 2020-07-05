@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Centralize/screens/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/constants/constants.dart';
@@ -23,6 +24,8 @@ class SplashScreenState extends State<SplashScreen>
 
   void navigationPage() {
     Navigator.of(context).pushReplacementNamed(SIGN_IN);
+    //Navigator.of(context).pushReplacementNamed(MAIN_SCREEN);
+  
   }
 
   @override

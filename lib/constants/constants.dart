@@ -1,5 +1,6 @@
 
 
+final String MAIN_SCREEN= 'MainScreen';
 
 final String SIGN_IN = 'signin';
 final String SIGN_UP ='signup';

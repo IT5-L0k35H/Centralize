@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "845651944132",
+    "firebase_url": "https://centralize-2020.firebaseio.com",
+    "project_id": "centralize-2020",
+    "storage_bucket": "centralize-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845651944132:android:c2fc534d9e0f1e54ea5f91",
+        "android_client_info": {
+          "package_name": "com.example.Centralize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845651944132-o6c85rbns3mn9o54mjnfomc633tp355s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.Centralize",
+            "certificate_hash": "60dbeaa807e473577bd114417cf8f3162a0336ed"
+          }
+        },
+        {
+          "client_id": "845651944132-ui08eh4hkplqbju6r6l5qpn9thv3ajti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQh3-HgoFt_nNXkFHQ74DdSXOKGv_QD-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845651944132-ui08eh4hkplqbju6r6l5qpn9thv3ajti.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "845651944132-0utrv7pntcektiirhescvtan59pk5b0m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.Centralize"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

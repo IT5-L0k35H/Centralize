@@ -1,4 +1,5 @@
 import 'package:Centralize/screens/MainScreen.dart';
+import 'package:Centralize/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/constants/constants.dart';
 import 'package:Centralize/screens/authentication/widgets/custom_shape.dart';
@@ -48,15 +49,15 @@ class _SignInScreenState extends State<SignInScreen> {
               children: <Widget>[
                 clipShape(),
                 //welcomeTextRow(),
-               // signInTextRow(),
+                // signInTextRow(),
                 form(),
                 forgetPassTextRow(),
                 SizedBox(height: _height / 30),
                 button(),
-                 SizedBox(height: _height / 20),
-                  infoTextRow(),
-                  socialIconsRow(),
-                   SizedBox(height: _height / 12),
+                SizedBox(height: _height / 20),
+                infoTextRow(),
+                socialIconsRow(),
+                SizedBox(height: _height / 12),
                 signUpTextRow(),
               ],
             ),
@@ -86,7 +87,6 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
         ),
-       
         Opacity(
           opacity: 0.8,
           child: ClipPath(
@@ -103,7 +103,6 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
         ),
-       
         Column(
           children: <Widget>[
             Container(
@@ -119,21 +118,20 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             Container(
-      alignment: Alignment.bottomLeft,
-      margin: EdgeInsets.only(left: 16),
-      child: Text(
-        "Sign in to your account",
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: Colors.white,
-          fontWeight: FontWeight.normal,
-          fontSize: _large ? 20 : (_medium ? 18 : 16),
-        ),
-      ),
-    ),
+              alignment: Alignment.bottomLeft,
+              margin: EdgeInsets.only(left: 16),
+              child: Text(
+                "Sign in to your account",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                  fontSize: _large ? 20 : (_medium ? 18 : 16),
+                ),
+              ),
+            ),
           ],
         ),
-        
       ],
     );
   }
@@ -157,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-*//*
+*/ /*
   Widget signInTextRow() {
     return Container(
       alignment: Alignment.topLeft,
@@ -179,7 +177,6 @@ class _SignInScreenState extends State<SignInScreen> {
       margin: EdgeInsets.only(
           left: _width / 12.0, right: _width / 12.0, top: _height / 15.0),
       child: Form(
-        
         key: _key,
         child: Column(
           children: <Widget>[
@@ -194,7 +191,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget emailTextFormField() {
     return CustomTextField(
-      
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
       icon: Icons.email,
@@ -206,8 +202,10 @@ class _SignInScreenState extends State<SignInScreen> {
     return CustomTextField(
       keyboardType: TextInputType.visiblePassword,
       textEditingController: passwordController,
-      icon: IconData(0xe0e6, fontFamily: 'MaterialIcons',),
-    
+      icon: IconData(
+        0xe0e6,
+        fontFamily: 'MaterialIcons',
+      ),
       hint: "Password",
     );
   }
@@ -233,7 +231,8 @@ class _SignInScreenState extends State<SignInScreen> {
             },
             child: Text(
               "Recover",
-              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.deepPurple),
+              style: TextStyle(
+                  fontWeight: FontWeight.w600, color: Colors.deepPurple),
             ),
           )
         ],
@@ -247,10 +246,10 @@ class _SignInScreenState extends State<SignInScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
         print("Routing to your account");
-       /* Scaffold.of(context)
+        /* Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text('Login Successful')));*/
-            Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MainScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
@@ -302,7 +301,7 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-  
+
   Widget infoTextRow() {
     return Container(
       margin: EdgeInsets.only(top: _height / 40.0),
@@ -337,7 +336,17 @@ class _SignInScreenState extends State<SignInScreen> {
               width: 50.0,
               height: 50.0,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  signInWithGoogle().whenComplete(() {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return MainScreen();
+                        },
+                      ),
+                    );
+                  });
+                },
               ),
             ),
           ),
@@ -381,5 +390,4 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-
 }
