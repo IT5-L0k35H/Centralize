@@ -1,55 +1,105 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 
- final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
- String name;
-String email;
-String imageUrl;
-
-
-
-Future<String> signInWithGoogle() async {
-  final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
-
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
-  
-
-  final AuthResult authResult = await _auth.signInWithCredential(credential);
-  final FirebaseUser user = authResult.user;
-
-  assert(!user.isAnonymous);
-  assert(await user.getIdToken() != null);
-
-  final FirebaseUser currentUser = await _auth.currentUser();
-  assert(user.uid == currentUser.uid);
-
-  return 'signInWithGoogle succeeded: $user';
-
-
+class User {
+  User({@required this.uid});
+  final String uid;
 }
 
-
-void signOutGoogle() async{
-  await _googleSignIn.signOut();
-
-  print("User Sign Out");
+abstract class AuthBase {
+  Stream<User> get onAuthStateChanged;
+  Future<User> currentUser();
+  Future<User> signInAnonymously();
+  Future<User> signInWithGoogle();
+  Future<User> signInWithFacebook();
+  Future<void> signOut();
 }
 
+class Auth implements AuthBase {
+  final _firebaseAuth = FirebaseAuth.instance;
 
-/*
-class AuthService{
-  //final GoogleSignIn _googleSignIn = GoogleSignIn();
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
-  //final Firestore _firestore= Firestore.instance;
+  User _userFromFirebase(FirebaseUser user) {
+    if (user == null) {
+      return null;
+    }
+    return User(uid: user.uid);
+  }
 
-  //Observable<FirebaseUser> user;
+  @override
+  Stream<User> get onAuthStateChanged {
+    return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
+  }
+
+  @override
+  Future<User> currentUser() async {
+    final user = await _firebaseAuth.currentUser();
+    return _userFromFirebase(user);
+  }
+
+  @override
+  Future<User> signInAnonymously() async {
+    final authResult = await _firebaseAuth.signInAnonymously();
+    return _userFromFirebase(authResult.user);
+  }
+
+  @override
+  Future<User> signInWithGoogle() async {
+    final googleSignIn = GoogleSignIn();
+    final googleAccount = await googleSignIn.signIn();
+    if (googleAccount != null) {
+      final googleAuth = await googleAccount.authentication;
+      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
+        final authResult = await _firebaseAuth.signInWithCredential(
+          GoogleAuthProvider.getCredential(
+            idToken: googleAuth.idToken,
+            accessToken: googleAuth.accessToken,
+          ),
+        );
+        return _userFromFirebase(authResult.user);
+      } else {
+        throw PlatformException(
+          code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
+          message: 'Missing Google Auth Token',
+        );
+      }
+    } else {
+      throw PlatformException(
+        code: 'ERROR_ABORTED_BY_USER',
+        message: 'Sign in aborted by user',
+      );
+    }
+  }
+
+  @override
+  Future<User> signInWithFacebook() async {
+    final facebookLogin = FacebookLogin();
+    final result = await facebookLogin.logIn(
+      ['public_profile'],
+    );
+    if (result.accessToken != null) {
+      final authResult = await _firebaseAuth.signInWithCredential(
+        FacebookAuthProvider.getCredential(
+          accessToken: result.accessToken.token,
+        ),
+      );
+      return _userFromFirebase(authResult.user);
+    } else {
+      throw PlatformException(
+        code: 'ERROR_ABORTED_BY_USER',
+        message: 'Sign in aborted by user',
+      );
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+    final facebookLogin = FacebookLogin();
+    await facebookLogin.logOut();
+    await _firebaseAuth.signOut();
+  }
 }
-final AuthService authService = AuthService();*/

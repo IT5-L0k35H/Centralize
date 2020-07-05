@@ -1,21 +1,156 @@
 import 'package:Centralize/screens/MainScreen.dart';
+import 'package:Centralize/screens/authentication/sign_in/social_sign_in_button.dart';
 import 'package:Centralize/screens/authentication/signup.dart';
 import 'package:Centralize/service/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:Centralize/constants/constants.dart';
-import 'package:Centralize/screens/authentication/widgets/custom_shape.dart';
 import 'package:Centralize/widgets/responsive_ui.dart';
 import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
 
 class SignInPage extends StatelessWidget {
+  SignInPage({@required this.auth});
+  final AuthBase auth;
+
+
+  Future<void> _signInAnonymously() async {
+    try {
+      await auth.signInAnonymously();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SignInScreen(),
+      body: _signInContent(),
     );
   }
-}
 
+
+Widget _signInContent() {
+  return Padding(
+    padding: EdgeInsets.all(16.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+       clipShape(),
+       SizedBox(height: 150.0),
+        /*OutlineButton(
+          splashColor: Colors.grey,
+          onPressed: _signInWithGoogle,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+          highlightElevation: 0,
+          borderSide: BorderSide(color: Colors.grey),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image(
+                    image: AssetImage('assets/images/auth/googlelogo.png'),
+                    height: 35.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    'Sign in with Google',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+       */ SocialSignInButton(
+            assetName: 'assets/images/auth/googlelogo.png',
+            text: 'Sign in with Google',
+            textColor: Colors.black87,
+            color: Colors.white,
+            onPressed: _signInWithGoogle,
+          ),
+          SizedBox(height: 15.0),
+          SocialSignInButton(
+            assetName: 'assets/images/auth/fblogo.png',
+            text: 'Sign in with Facebook',
+            textColor: Colors.white,
+            color: Color(0xFF334D92),
+            onPressed: () {},
+          ),
+          SizedBox(height: 15.0),
+        SocialSignInButton(
+           assetName: 'assets/images/auth/fblogo.png',
+            text: 'Sign in with email',
+            textColor: Colors.white,
+            color: Colors.orange[300],
+            onPressed: _signInAnonymously,
+          ),
+          SizedBox(height: 15.0),
+          Text(
+            'or',
+            style: TextStyle(fontSize: 14.0, color: Colors.black87),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 8.0),
+
+       
+      ],
+    ),
+  );
+}
+ Widget clipShape() {
+    //double height = MediaQuery.of(context).size.height;
+    return Stack(
+      children: <Widget>[
+   
+        Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.bottomLeft,
+              margin: EdgeInsets.only(top: 40, left: 16),
+              child: Text(
+                "Welcome",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                    fontSize: 40,
+                    color: Colors.deepPurple[600]),
+              ),
+            ),
+            Container(
+              alignment: Alignment.bottomLeft,
+              margin: EdgeInsets.only(left: 16),
+              child: Text(
+                "Sign in to your account",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.deepPurple[300],
+                  fontWeight: FontWeight.normal,
+                  fontSize:  20,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+}
+/*
 class SignInScreen extends StatefulWidget {
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -104,7 +239,8 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
         ),
-       */ Column(
+       */
+        Column(
           children: <Widget>[
             Container(
               alignment: Alignment.bottomLeft,
@@ -213,8 +349,6 @@ class _SignInScreenState extends State<SignInScreen> {
         print("Routing to your account");
         /* Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text('Login Successful')));*/
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainScreen()));
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
@@ -251,7 +385,8 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => SignUpScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpScreen()));
               print("Routing to Sign up screen");
             },
             child: Text(
@@ -302,7 +437,7 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 50.0,
               child: InkWell(
                 onTap: () {
-                  signInWithGoogle().whenComplete(() {
+                  /*signInWithGoogle().whenComplete(() {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -310,7 +445,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         },
                       ),
                     );
-                  });
+                  });*/
                 },
               ),
             ),
@@ -356,3 +491,4 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
+-*/

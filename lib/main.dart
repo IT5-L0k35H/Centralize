@@ -2,7 +2,7 @@ import 'package:Centralize/screens/MainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Centralize/utils/const.dart';
-import 'package:Centralize/screens/authentication/signin.dart';
+import 'package:Centralize/screens/authentication/sign_in/signin.dart';
 import 'package:Centralize/screens/splashscreen.dart';
 import 'package:Centralize/screens/authentication/signup.dart';
 import 'package:Centralize/constants/constants.dart';

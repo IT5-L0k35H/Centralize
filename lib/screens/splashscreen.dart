@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:Centralize/screens/MainScreen.dart';
-import 'package:Centralize/screens/authentication/signin.dart';
+import 'package:Centralize/service/auth.dart';
+import 'package:Centralize/service/landingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Centralize/constants/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   var _visible = true;
-   bool isAuth = true;
+  //bool isAuth = true;
 
   AnimationController animationController;
   Animation<double> animation;
@@ -25,9 +24,10 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-   //isAuth ? Navigator.of(context).pushReplacementNamed(MAIN_SCREEN): Navigator.of(context).pushReplacementNamed(SIGN_IN);
-   isAuth ? Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => MainScreen())): Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInPage()),);
-    
+    //isAuth ? Navigator.of(context).pushReplacementNamed(MAIN_SCREEN): Navigator.of(context).pushReplacementNamed(SIGN_IN);
+    // isAuth ? Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => MainScreen())): Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInPage()),);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LandingPage( auth: Auth(),)));
     //Navigator.of(context).pushReplacementNamed(SIGN_IN);
     //Navigator.of(context).pushReplacementNamed(MAIN_SCREEN);
   }
@@ -45,7 +45,7 @@ class SplashScreenState extends State<SplashScreen>
 
     setState(() {
       _visible = !_visible;
-      isAuth=true;
+      // isAuth=true;
     });
     startTime();
   }

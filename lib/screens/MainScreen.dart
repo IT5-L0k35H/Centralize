@@ -3,6 +3,7 @@ import 'package:Centralize/screens/exploreScreen/explore.dart';
 import 'package:Centralize/screens/homeScreen/home.dart';
 import 'package:Centralize/screens/notification/notifications.dart';
 import 'package:Centralize/screens/userServices/myservices.dart';
+import 'package:Centralize/service/auth.dart';
 import 'package:Centralize/widgets/custom_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
           controller: _pageController,
           onPageChanged: onPageChanged,
           children: <Widget>[
-            Home(),
+            Home(auth: Auth(),),
             Explore(),
             Chats(),
             NOtifications(),
