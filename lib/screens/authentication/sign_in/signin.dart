@@ -1,102 +1,69 @@
-import 'package:Centralize/screens/MainScreen.dart';
 import 'package:Centralize/screens/authentication/sign_in/social_sign_in_button.dart';
-import 'package:Centralize/screens/authentication/signup.dart';
 import 'package:Centralize/service/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:Centralize/widgets/responsive_ui.dart';
-import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
+import 'package:Centralize/screens/authentication/sign_in/sign_in_with_email.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
-  SignInPage({@required this.auth});
-  final AuthBase auth;
 
 
-  Future<void> _signInAnonymously() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      await auth.signInAnonymously();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _signInWithGoogle() async {
-    try {
+      final auth = Provider.of<AuthBase>(context,listen: false);
       await auth.signInWithGoogle();
     } catch (e) {
       print(e.toString());
     }
   }
 
+  void _signInWithEmail(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (context) =>  EmailSignInPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _signInContent(),
+      body: _signInContent(context),
     );
   }
 
 
-Widget _signInContent() {
+Widget _signInContent(BuildContext context) {
   return Padding(
-    padding: EdgeInsets.all(16.0),
+    padding: EdgeInsets.all(20.0),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
        clipShape(),
        SizedBox(height: 150.0),
-        /*OutlineButton(
-          splashColor: Colors.grey,
-          onPressed: _signInWithGoogle,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-          highlightElevation: 0,
-          borderSide: BorderSide(color: Colors.grey),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image(
-                    image: AssetImage('assets/images/auth/googlelogo.png'),
-                    height: 35.0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    'Sign in with Google',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-       */ SocialSignInButton(
-            assetName: 'assets/images/auth/googlelogo.png',
+         SocialSignInButton(
+            assetName: 'assets/images/auth/google.png',
             text: 'Sign in with Google',
             textColor: Colors.black87,
             color: Colors.white,
-            onPressed: _signInWithGoogle,
+            onPressed: () => _signInWithGoogle(context),
           ),
           SizedBox(height: 15.0),
           SocialSignInButton(
-            assetName: 'assets/images/auth/fblogo.png',
+            assetName: 'assets/images/auth/facebook.png',
             text: 'Sign in with Facebook',
             textColor: Colors.white,
-            color: Color(0xFF334D92),
+            color: Color(0xFF3b5998),
             onPressed: () {},
           ),
           SizedBox(height: 15.0),
         SocialSignInButton(
-           assetName: 'assets/images/auth/fblogo.png',
+           assetName: 'assets/images/auth/mail.png',
             text: 'Sign in with email',
             textColor: Colors.white,
-            color: Colors.orange[300],
-            onPressed: _signInAnonymously,
+            color: Colors.orange[400],
+            onPressed: ()=>_signInWithEmail(context),
           ),
           SizedBox(height: 15.0),
           Text(
@@ -105,6 +72,7 @@ Widget _signInContent() {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 8.0),
+          signUpTextRow(),
 
        
       ],
@@ -146,6 +114,40 @@ Widget _signInContent() {
           ],
         ),
       ],
+    );
+  }
+
+   Widget signUpTextRow() {
+    return Container(
+     
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Don't have an account?",
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize:  14 ),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          GestureDetector(
+            onTap: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => SignUpScreen()));
+              print("Routing to Sign up screen");
+            },
+            child: Text(
+              "Sign up",
+              style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: Colors.deepPurple,
+                  fontSize: 19 ,
+            ),
+          ),),
+        ],
+      ),
     );
   }
 

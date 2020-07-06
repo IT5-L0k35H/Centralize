@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:Centralize/service/auth.dart';
-import 'package:Centralize/service/landingPage.dart';
+import 'package:Centralize/landingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,12 +23,9 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    //isAuth ? Navigator.of(context).pushReplacementNamed(MAIN_SCREEN): Navigator.of(context).pushReplacementNamed(SIGN_IN);
-    // isAuth ? Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => MainScreen())): Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInPage()),);
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LandingPage( auth: Auth(),)));
-    //Navigator.of(context).pushReplacementNamed(SIGN_IN);
-    //Navigator.of(context).pushReplacementNamed(MAIN_SCREEN);
+   Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LandingPage()));
+    
   }
 
   @override
@@ -45,8 +41,7 @@ class SplashScreenState extends State<SplashScreen>
 
     setState(() {
       _visible = !_visible;
-      // isAuth=true;
-    });
+       });
     startTime();
   }
 
