@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:Centralize/screens/authentication/widgets/form_submit_button.dart';
 import 'package:Centralize/service/auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:Centralize/screens/authentication/models/email_sign_in_bloc.dart';
 import 'package:Centralize/screens/authentication/models/email_sign_in_model.dart';
-import 'package:flutter/services.dart';
+import 'package:Centralize/screens/authentication/widgets/form_submit_button.dart';
 import 'package:Centralize/widgets/platform_exception_alert_dialog.dart';
-import 'package:provider/provider.dart';
 
 
 class EmailSignInFormBlocBased extends StatefulWidget {

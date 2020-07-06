@@ -1,26 +1,67 @@
-import 'package:Centralize/screens/authentication/sign_in/social_sign_in_button.dart';
+import 'package:Centralize/screens/authentication/widgets/social_sign_in_button.dart';
 import 'package:Centralize/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/screens/authentication/sign_in/sign_in_with_email.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:Centralize/screens/authentication/models/sign_in_bloc.dart';
+import 'package:Centralize/widgets/platform_exception_alert_dialog.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({Key key, @required this.bloc}) : super(key: key);
+  final SignInBloc bloc;
 
+  static Widget create(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context,listen:false);
+    return Provider<SignInBloc>(
+      create: (_) => SignInBloc(auth: auth),
+      dispose: (context, bloc) => bloc.dispose(),
+      child: Consumer<SignInBloc>(
+        builder: (context, bloc, _) => SignInPage(bloc: bloc),
+      ),
+    );
+  }
+
+  void _showSignInError(BuildContext context, PlatformException exception) {
+    PlatformExceptionAlertDialog(
+      title: 'Sign in failed',
+      exception: exception,
+    ).show(context);
+  }
+
+  // Future<void> _signInAnonymously(BuildContext context) async {
+  //   try {
+  //     await bloc.signInAnonymously();
+  //   } on PlatformException catch (e) {
+  //     _showSignInError(context, e);
+  //   }
+  // }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      final auth = Provider.of<AuthBase>(context,listen: false);
-      await auth.signInWithGoogle();
-    } catch (e) {
-      print(e.toString());
+      await bloc.signInWithGoogle();
+    } on PlatformException catch (e) {
+      if (e.code != 'ERROR_ABORTED_BY_USER') {
+        _showSignInError(context, e);
+      }
     }
   }
+
+  // Future<void> _signInWithFacebook(BuildContext context) async {
+  //   try {
+  //     await bloc.signInWithFacebook();
+  //   } on PlatformException catch (e) {
+  //     if (e.code != 'ERROR_ABORTED_BY_USER') {
+  //       _showSignInError(context, e);
+  //     }
+  //   }
+  // }
 
   void _signInWithEmail(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
-        builder: (context) =>  EmailSignInPage(),
+        builder: (context) => EmailSignInPage(),
       ),
     );
   }
@@ -32,17 +73,16 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-
-Widget _signInContent(BuildContext context) {
-  return Padding(
-    padding: EdgeInsets.all(20.0),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-       clipShape(),
-       SizedBox(height: 150.0),
-         SocialSignInButton(
+  Widget _signInContent(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          clipShape(),
+          SizedBox(height: 150.0),
+          SocialSignInButton(
             assetName: 'assets/images/auth/google.png',
             text: 'Sign in with Google',
             textColor: Colors.black87,
@@ -58,12 +98,12 @@ Widget _signInContent(BuildContext context) {
             onPressed: () {},
           ),
           SizedBox(height: 15.0),
-        SocialSignInButton(
-           assetName: 'assets/images/auth/mail.png',
+          SocialSignInButton(
+            assetName: 'assets/images/auth/mail.png',
             text: 'Sign in with email',
             textColor: Colors.white,
             color: Colors.orange[400],
-            onPressed: ()=>_signInWithEmail(context),
+            onPressed: () => _signInWithEmail(context),
           ),
           SizedBox(height: 15.0),
           Text(
@@ -73,17 +113,15 @@ Widget _signInContent(BuildContext context) {
           ),
           SizedBox(height: 8.0),
           signUpTextRow(),
+        ],
+      ),
+    );
+  }
 
-       
-      ],
-    ),
-  );
-}
- Widget clipShape() {
+  Widget clipShape() {
     //double height = MediaQuery.of(context).size.height;
     return Stack(
       children: <Widget>[
-   
         Column(
           children: <Widget>[
             Container(
@@ -107,7 +145,7 @@ Widget _signInContent(BuildContext context) {
                   fontFamily: 'Poppins',
                   color: Colors.deepPurple[300],
                   fontWeight: FontWeight.normal,
-                  fontSize:  20,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -117,17 +155,14 @@ Widget _signInContent(BuildContext context) {
     );
   }
 
-   Widget signUpTextRow() {
+  Widget signUpTextRow() {
     return Container(
-     
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             "Don't have an account?",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize:  14 ),
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
           ),
           SizedBox(
             width: 5,
@@ -141,350 +176,9 @@ Widget _signInContent(BuildContext context) {
             child: Text(
               "Sign up",
               style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: Colors.deepPurple,
-                  fontSize: 19 ,
-            ),
-          ),),
-        ],
-      ),
-    );
-  }
-
-}
-/*
-class SignInScreen extends StatefulWidget {
-  @override
-  _SignInScreenState createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
-  double _height;
-  double _width;
-  double _pixelRatio;
-  bool _large;
-  bool _medium;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  GlobalKey<FormState> _key = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
-    _height = MediaQuery.of(context).size.height;
-    _width = MediaQuery.of(context).size.width;
-    _pixelRatio = MediaQuery.of(context).devicePixelRatio;
-    _large = ResponsiveWidget.isScreenLarge(_width, _pixelRatio);
-    _medium = ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
-    return SafeArea(
-      child: Material(
-        child: Container(
-          height: _height,
-          width: _width,
-          color: Colors.white,
-          padding: EdgeInsets.only(bottom: 5),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                clipShape(),
-                //welcomeTextRow(),
-                // signInTextRow(),
-                form(),
-                forgetPassTextRow(),
-                SizedBox(height: _height / 30),
-                button(),
-                SizedBox(height: _height / 20),
-                infoTextRow(),
-                socialIconsRow(),
-                SizedBox(height: _height / 12),
-                signUpTextRow(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget clipShape() {
-    //double height = MediaQuery.of(context).size.height;
-    return Stack(
-      children: <Widget>[
-        /*Opacity(
-          opacity: 0.8,
-          child: ClipPath(
-            clipper: CustomShapeClipper2(),
-            child: Container(
-              height: _large
-                  ? _height / 4.5
-                  : (_medium ? _height / 4.25 : _height / 4),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.deepPurple[100], Colors.deepPurple],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Opacity(
-          opacity: 0.8,
-          child: ClipPath(
-            clipper: CustomShapeClipper(),
-            child: Container(
-              height: _large
-                  ? _height / 4.5
-                  : (_medium ? _height / 4.25 : _height / 4),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.deepPurple[100], Colors.deepPurple],
-                ),
-              ),
-            ),
-          ),
-        ),
-       */
-        Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.bottomLeft,
-              margin: EdgeInsets.only(top: 40, left: 16),
-              child: Text(
-                "Welcome",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    fontSize: _large ? 40 : (_medium ? 30 : 25),
-                    color: Colors.deepPurple[600]),
-              ),
-            ),
-            Container(
-              alignment: Alignment.bottomLeft,
-              margin: EdgeInsets.only(left: 16),
-              child: Text(
-                "Sign in to your account",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.deepPurple[300],
-                  fontWeight: FontWeight.normal,
-                  fontSize: _large ? 20 : (_medium ? 18 : 16),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget form() {
-    return Container(
-      margin: EdgeInsets.only(
-          left: _width / 12.0, right: _width / 12.0, top: _height / 15.0),
-      child: Form(
-        key: _key,
-        child: Column(
-          children: <Widget>[
-            emailTextFormField(),
-            SizedBox(height: _height / 40.0),
-            passwordTextFormField(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget emailTextFormField() {
-    return CustomTextField(
-      keyboardType: TextInputType.emailAddress,
-      textEditingController: emailController,
-      icon: Icons.email,
-      hint: "Email",
-    );
-  }
-
-  Widget passwordTextFormField() {
-    return CustomTextField(
-      keyboardType: TextInputType.visiblePassword,
-      textEditingController: passwordController,
-      icon: IconData(
-        0xe0e6,
-        fontFamily: 'MaterialIcons',
-      ),
-      hint: "Password",
-    );
-  }
-
-  Widget forgetPassTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 40.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Forgot your password?",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: _large ? 14 : (_medium ? 12 : 10)),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          GestureDetector(
-            onTap: () {
-              print("Routing");
-            },
-            child: Text(
-              "Recover",
-              style: TextStyle(
-                  fontWeight: FontWeight.w600, color: Colors.deepPurple),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget button() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        print("Routing to your account");
-        /* Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Login Successful')));*/
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: _large ? _width / 4 : (_medium ? _width / 3.75 : _width / 3.5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: LinearGradient(
-            colors: [Colors.deepPurple[100], Colors.deepPurple],
-          ),
-        ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN IN',
-            style: TextStyle(fontSize: _large ? 14 : (_medium ? 12 : 10))),
-      ),
-    );
-  }
-
-  Widget signUpTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 120.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Don't have an account?",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: _large ? 14 : (_medium ? 12 : 10)),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpScreen()));
-              print("Routing to Sign up screen");
-            },
-            child: Text(
-              "Sign up",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: Colors.deepPurple,
-                  fontSize: _large ? 19 : (_medium ? 17 : 15)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget infoTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 40.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Sign in using social media",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: _large ? 14 : (_medium ? 13 : 12)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget socialIconsRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 60.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Material(
-            elevation: 3.0,
-            shape: CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.transparent,
-            child: Ink.image(
-              image: AssetImage('assets/images/auth/googlelogo.png'),
-              fit: BoxFit.fill,
-              width: 50.0,
-              height: 50.0,
-              child: InkWell(
-                onTap: () {
-                  /*signInWithGoogle().whenComplete(() {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return MainScreen();
-                        },
-                      ),
-                    );
-                  });*/
-                },
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Material(
-            elevation: 3.0,
-            shape: CircleBorder(side: BorderSide(width: 0)),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.white,
-            child: Ink.image(
-              image: AssetImage('assets/images/auth/fblogo.jpg'),
-              fit: BoxFit.scaleDown,
-              width: 50.0,
-              height: 50.0,
-              child: InkWell(
-                onTap: () {},
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Material(
-            elevation: 3.0,
-            shape: CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.white,
-            child: Ink.image(
-              image: AssetImage('assets/images/auth/twitterlogo.jpg'),
-              fit: BoxFit.cover,
-              width: 50.0,
-              height: 50.0,
-              child: InkWell(
-                onTap: () {},
+                fontWeight: FontWeight.w800,
+                color: Colors.deepPurple,
+                fontSize: 19,
               ),
             ),
           ),
@@ -493,4 +187,3 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
--*/
