@@ -35,6 +35,7 @@ class CustomTextField extends StatelessWidget {
       
     // elevation: large? 2 : (medium? 1.5 :1),
       child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
         controller: textEditingController,
         keyboardType: keyboardType,
         cursorColor: Colors.orange[200],
@@ -44,7 +45,7 @@ class CustomTextField extends StatelessWidget {
       borderSide: const BorderSide(color: Colors.grey, width: 0.0),
     ),
         */  
-          prefixIcon: Icon(icon, color: Colors.orange[300], size: 23),
+          prefixIcon: Icon(icon, color: Colors.orange[300], size: 24),
           hintText: hint,
          /* border:  OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.0),

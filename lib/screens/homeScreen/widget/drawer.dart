@@ -31,7 +31,7 @@ class Drawar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
-        topRight: Radius.circular(20.0),
+        topRight: Radius.circular(10.0),
         //bottomRight: Radius.circular(10.0),
       ),
       child: Drawer(
@@ -95,7 +95,7 @@ Widget _createHeader() {
             const Color(0xFFcdccff),
             const Color(0xFF6712e6)
           ], // whitish to gray
-          tileMode: TileMode.repeated, // repeats the gradient over the canvas
+         // tileMode: TileMode.repeated, // repeats the gradient over the canvas
         ),
         /* image: DecorationImage(
               fit: BoxFit.fill, 
@@ -107,14 +107,14 @@ Widget _createHeader() {
             left: 16.0,
             child: Text("Lokesh Verma",
                 style: TextStyle(
-                    color: Colors.black87,
+                    color: Colors.white,
                     fontSize: 20.0,
                     fontWeight: FontWeight.w500))),
         Positioned(
-            bottom: 35.0,
+            bottom: 45.0,
             left: 16.0,
             child: CircleAvatar(
-              radius: 40,
+              radius: 30,
               backgroundImage: AssetImage('assets/images/auth/google.png'),
             ))
       ]));
