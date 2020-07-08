@@ -22,16 +22,16 @@ class CheckUserPage extends StatelessWidget {
     final userRef = Firestore.instance.collection('users');
     // users = auth.currentUser();
 
-    return StreamBuilder<CreateUserDatabase>(
-        stream: auth.onAuthStateChanged,
+    return StreamBuilder(
+      stream: userRef.snapshots(), // auth.onAuthStateChanged,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.connectionState == ConnectionState.active) 
+         {
             // CreateUserDatabase user = snapshot.data;
             userRef.document(userID).get().then((DocumentSnapshot doc) {
              usName = doc.data["userName"];
-             print(usName);
-            // print(doc.data.toString());
-            });
+            }
+            );
 
             if (usName == null) {
               return RegisterForm(); // RegisterForm();
