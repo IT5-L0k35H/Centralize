@@ -30,7 +30,7 @@ class LandingPage extends StatelessWidget {
               value: user,
               child: Provider<Database>(
                create: (_) => FirestoreDatabase(uid: user.uid),
-                child:  CheckUserPage(),//MainScreen(),
+                child:  CheckUserPage(user),//MainScreen(),
               ),
             );
           } else {

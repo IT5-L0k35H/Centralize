@@ -35,13 +35,10 @@ class _RegisterFormState extends State<RegisterForm> {
 
 await auth.updateUserName(user, username);
 
+    //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(),
 
-     Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        fullscreenDialog: true,
-        builder: (context) => MainScreen(),
-      ),
-    );
+      // ),
+    // );
   }
 
   @override
@@ -223,6 +220,9 @@ await auth.updateUserName(user, username);
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
         _submit();
+  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(),));
+
+
       }, //_submit(),
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
