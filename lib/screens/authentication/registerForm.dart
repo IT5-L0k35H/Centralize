@@ -5,8 +5,8 @@ import 'package:Centralize/widgets/responsive_ui.dart';
 import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
 
 class RegisterForm extends StatefulWidget {
-RegisterForm({this.uid});
-final String uid;
+  RegisterForm({this.uid});
+  final String uid;
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -24,6 +24,10 @@ class _RegisterFormState extends State<RegisterForm> {
   String username;
 
 
+  _submit(){
+    _formKey.currentState.save();
+    Navigator.pop(context,username);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class _RegisterFormState extends State<RegisterForm> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              'Create Account',
+              'Set up your account',
               style: TextStyle(
                   fontFamily: 'Poppins', fontSize: 16, color: Colors.black87),
             ),
@@ -77,9 +81,10 @@ class _RegisterFormState extends State<RegisterForm> {
       margin: EdgeInsets.only(
           left: _width / 12.0, right: _width / 12.0, top: _height / 40.0),
       child: Form(
+        key: _formKey,
         child: Column(
           children: <Widget>[
-           firstNameTextFormField(),
+            firstNameTextFormField(),
             /*Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Container(
@@ -109,30 +114,33 @@ class _RegisterFormState extends State<RegisterForm> {
                     ),
                   ),
                 ),
-          */  SizedBox(height: _height / 70.0),
-            userNameTextFormField(),
+          */
             SizedBox(height: _height / 70.0),
-            // emailTextFormField(),
-            // SizedBox(height: _height / 90.0),
-            phoneTextFormField(),
-            SizedBox(height: _height / 70.0),
-            passwordTextFormField(),
+            // userNameTextFormField(),
+            // SizedBox(height: _height / 70.0),
+            // // emailTextFormField(),
+            // // SizedBox(height: _height / 90.0),
+            // phoneTextFormField(),
+            // SizedBox(height: _height / 70.0),
+            // passwordTextFormField(),
           ],
         ),
       ),
     );
   }
 
-
-
-
-
   Widget firstNameTextFormField() {
-    return CustomTextField(
+    return TextFormField(
+      onSaved: (newValue) => username = newValue,
       keyboardType: TextInputType.text,
-      icon: Icons.person,
-      hint: "Full Name",
-      
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: "UserName",
+        labelStyle: TextStyle(fontSize: 15.0),
+        hintText: "Must be atleast 5 characters",
+      ),
+      // icon: Icons.person,
+      // hint: "Full Name",
     );
   }
 
@@ -198,7 +206,7 @@ class _RegisterFormState extends State<RegisterForm> {
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: (){},//_submit(),
+      onPressed: () {_submit();}, //_submit(),
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(

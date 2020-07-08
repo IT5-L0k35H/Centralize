@@ -45,19 +45,19 @@ class _CreateAccountState extends State<CreateAccount> {
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
 
-      await auth.createUserWithEmailAndPassword(_email, _password);
+      await auth.createUserWithEmailAndPassword(context,_email, _password);
      // _registerForm(context);
-      Navigator.of(context).pop();
+      //Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Sign in failed',
         exception: e,
       ).show(context);
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    } //finally {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // }
   }
 
   void _emailEditingComplete() {
