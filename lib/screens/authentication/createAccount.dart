@@ -44,10 +44,7 @@ class _CreateAccountState extends State<CreateAccount> {
     });
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
-
-      await auth.createUserWithEmailAndPassword(context,_email, _password);
-     // _registerForm(context);
-      //Navigator.of(context).pop();
+      await auth.createUserWithEmailAndPassword(context, _email, _password);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Sign in failed',
@@ -185,7 +182,6 @@ class _CreateAccountState extends State<CreateAccount> {
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
-        
         labelText: 'Password',
         errorText: showErrorText ? widget.invalidPasswordErrorText : null,
         enabled: _isLoading == false,
@@ -203,11 +199,9 @@ class _CreateAccountState extends State<CreateAccount> {
     return TextFormField(
       controller: _emailController,
       focusNode: _emailFocusNode,
-      
       decoration: InputDecoration(
         labelText: 'Email',
         hintText: 'test@test.com',
-        
         errorText: showErrorText ? widget.invalidEmailErrorText : null,
         prefixIcon: Icon(
           Icons.email,

@@ -89,16 +89,16 @@ class Auth implements AuthBase {
       String email, String password) async {
     final authResult = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-    FirebaseUser checkuser = authResult.user;
-    await CreateUserDatabase(uid: checkuser.uid).updateUserData(
-      checkuser.displayName,
-      checkuser.providerId,
-      checkuser.email,
-      checkuser.photoUrl,
-      checkuser.uid,
-      " ",
-      timestamp,
-    );
+    // FirebaseUser checkuser = authResult.user;
+    // await CreateUserDatabase(uid: checkuser.uid).updateUserData(
+    //   checkuser.displayName,
+    //   checkuser.providerId,
+    //   checkuser.email,
+    //   checkuser.photoUrl,
+    //   checkuser.uid,
+    //   " ",
+    //   timestamp,
+    // );
 
     return _userFromFirebase(authResult.user);
   }
@@ -141,15 +141,12 @@ class Auth implements AuthBase {
         );
         FirebaseUser checkuser = authResult.user;
         DocumentSnapshot doc = await usersRef.document(checkuser.uid).get();
-        print(doc.documentID);
         if (!doc.exists) {
-          final username = await _getUserName(context);
-          print("NO Object found");
-
-          //final username = await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterForm()));
+          final username = await Navigator.push(
+              context, MaterialPageRoute(builder: (context) => RegisterForm()));
           await CreateUserDatabase(uid: checkuser.uid).updateUserData(
             checkuser.displayName,
-            username,
+            username, //checkuser.providerId"",
             checkuser.email,
             checkuser.photoUrl,
             checkuser.uid,

@@ -36,7 +36,7 @@ class _SignInPageState extends State<SignInPage> {
         _showSignInError(context, e);
       }
     } finally {
-     // setState(() => _isLoading = false);
+     setState(() => _isLoading = false);
     }
   }
 
