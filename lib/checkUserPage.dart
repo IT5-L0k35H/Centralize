@@ -24,8 +24,8 @@ class CheckUserPage extends StatelessWidget {
             if (user.userName == null) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterForm() ));// RegisterForm();
             }
-             return 
-                 MainScreen();
+            if(user.userName!=null){
+               return  MainScreen();}
             
           } else {
             return Scaffold(

@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:Centralize/screens/MainScreen.dart';
+import 'package:Centralize/service/auth.dart';
+import 'package:Centralize/service/createUserDatabase.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/widgets/responsive_ui.dart';
 import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
+import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({this.uid});
@@ -23,10 +27,21 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   String username;
 
-
-  _submit(){
+  _submit() async {
     _formKey.currentState.save();
-    Navigator.pop(context,username);
+
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    CreateUserDatabase user = await auth.currentUser();
+
+await auth.updateUserName(user, username);
+
+
+     Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (context) => MainScreen(),
+      ),
+    );
   }
 
   @override
@@ -206,7 +221,9 @@ class _RegisterFormState extends State<RegisterForm> {
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {_submit();}, //_submit(),
+      onPressed: () {
+        _submit();
+      }, //_submit(),
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(

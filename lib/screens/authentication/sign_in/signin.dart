@@ -31,6 +31,9 @@ class _SignInPageState extends State<SignInPage> {
       final auth = Provider.of<AuthBase>(context, listen: false);
       
       await auth.signInWithGoogle(context);
+
+
+      
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);

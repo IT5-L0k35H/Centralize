@@ -25,7 +25,7 @@ CreateUserDatabase user;
 abstract class AuthBase {
   Stream<CreateUserDatabase> get onAuthStateChanged;
   Future<CreateUserDatabase> currentUser();
-  Future<void> updateUserName(String username);
+  Future<void> updateUserName(CreateUserDatabase user,String username);
   Future<CreateUserDatabase> signInAnonymously();
   Future<CreateUserDatabase> signInWithEmailAndPassword(
       String email, String password);
@@ -53,8 +53,12 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<void> updateUserName(String username) {
-//  FirebaseUser checkuser = ;
+  Future updateUserName(CreateUserDatabase user, String userName) async{
+
+      usersRef.document(user.uid).updateData({"userName" : userName});
+  //return _userFromFirebase(authResult.user);
+
+//  FirebaseUser checkuser = 
 //     await CreateUserDatabase(uid: checkuser.uid).updateUserData(
 //         checkuser.displayName,
 //         checkuser.providerId,
@@ -113,6 +117,7 @@ class Auth implements AuthBase {
     if (!doc.exists) {
       final username = await Navigator.push(
           context, MaterialPageRoute(builder: (context) => RegisterForm()));
+          
       await CreateUserDatabase(uid: checkuser.uid).updateUserData(
         checkuser.displayName,
         username, //checkuser.providerId"",
@@ -142,8 +147,8 @@ class Auth implements AuthBase {
         FirebaseUser checkuser = authResult.user;
         DocumentSnapshot doc = await usersRef.document(checkuser.uid).get();
         if (!doc.exists) {
-          final username = await Navigator.push(
-              context, MaterialPageRoute(builder: (context) => RegisterForm()));
+          print("Creating new google user");
+          final username = null;
           await CreateUserDatabase(uid: checkuser.uid).updateUserData(
             checkuser.displayName,
             username, //checkuser.providerId"",
