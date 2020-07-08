@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:Centralize/widgets/responsive_ui.dart';
 import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
 
 class RegisterForm extends StatefulWidget {
+RegisterForm({this.uid});
+final String uid;
+
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
@@ -14,6 +19,11 @@ class _RegisterFormState extends State<RegisterForm> {
   double _pixelRatio;
   bool _large;
   bool _medium;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  String username;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +79,37 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Form(
         child: Column(
           children: <Widget>[
-            firstNameTextFormField(),
-            SizedBox(height: _height / 70.0),
+           firstNameTextFormField(),
+            /*Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Container(
+                    child: Form(
+                      key: _formKey,
+                      autovalidate: true,
+                      child: TextFormField(
+                        validator: (val) {
+                          if (val.trim().length < 3 || val.isEmpty) {
+                            return "Username too short";
+                          } else if (val.trim().length > 12) {
+                            return "Username too long";
+                          } else {
+                            return null;
+                          }
+                          
+                        },
+                         onEditingComplete: _submit,
+                        onSaved: (val) => username = val,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Username",
+                          labelStyle: TextStyle(fontSize: 15.0),
+                          hintText: "Must be at least 3 characters",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+          */  SizedBox(height: _height / 70.0),
             userNameTextFormField(),
             SizedBox(height: _height / 70.0),
             // emailTextFormField(),
@@ -84,11 +123,16 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
+
+
+
+
   Widget firstNameTextFormField() {
     return CustomTextField(
       keyboardType: TextInputType.text,
       icon: Icons.person,
       hint: "Full Name",
+      
     );
   }
 
@@ -154,9 +198,7 @@ class _RegisterFormState extends State<RegisterForm> {
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        print("Routing to your account");
-      },
+      onPressed: (){},//_submit(),
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(

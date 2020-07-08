@@ -1,5 +1,6 @@
 import 'package:Centralize/screens/homeScreen/widget/drawer.dart';
 import 'package:Centralize/service/auth.dart';
+import 'package:Centralize/service/createUserDatabase.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/widgets/avatar.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ final GlobalKey _scaffoldKey = new GlobalKey();
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
- final user = Provider.of<User>(context, listen: false);
+ final user = Provider.of<CreateUserDatabase>(context, listen: false);
     return SafeArea(
       child: Scaffold(
           key: _scaffoldKey,
@@ -74,7 +75,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(top:80.0),
               child: PreferredSize(
                 preferredSize: Size.fromHeight(100),
-                child: _buildUserInfo(user),
+                child: Text('Hello'),//_buildUserInfo(user),
               ),
             ),
           ),
@@ -86,29 +87,29 @@ class _HomeState extends State<Home> {
   }
 
 
-   Widget _buildUserInfo(User user) {
-    return Column(
-      children: <Widget>[
-        Avatar(
-          photoUrl: user.photoUrl,
-          radius: 50,
-        ),
-        SizedBox(height: 18),
-        if (user.displayName != null)
-          Text(
-            user.displayName,
-            style: TextStyle(color: Colors.indigo,fontSize: 24,),
-          )else(
-             Text(
-            'No User Name yet',
-            //user.displayName,
-            style: TextStyle(color: Colors.indigo,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,),
-             )
-          ),
-        SizedBox(height: 8),
-      ],
-    );
-  }
+  //  Widget _buildUserInfo(CreateUserDatabase user) {
+  //   return Column(
+  //     children: <Widget>[
+  //       Avatar(
+  //         photoUrl: user.photoUrl,
+  //         radius: 50,
+  //       ),
+  //       SizedBox(height: 18),
+  //       if (user.displayName != null)
+  //         Text(
+  //           user.displayName,
+  //           style: TextStyle(color: Colors.indigo,fontSize: 24,),
+  //         )else(
+  //            Text(
+  //           'No User Name yet',
+  //           //user.displayName,
+  //           style: TextStyle(color: Colors.indigo,
+  //           fontWeight: FontWeight.bold,
+  //           fontSize: 24,),
+  //            )
+  //         ),
+  //       SizedBox(height: 8),
+  //     ],
+  //   );
+ // }
 }

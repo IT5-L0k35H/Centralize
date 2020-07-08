@@ -1,9 +1,15 @@
 import 'package:Centralize/screens/authentication/registerForm.dart';
 import 'package:Centralize/screens/authentication/widgets/textformfield.dart';
+import 'package:Centralize/service/auth.dart';
+import 'package:Centralize/widgets/platform_exception_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:Centralize/widgets/responsive_ui.dart';
 
-class CreateAccount extends StatefulWidget {
+import 'package:Centralize/screens/authentication/models/validators.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+class CreateAccount extends StatefulWidget with EmailAndPasswordValidators {
   CreateAccount({Key key}) : super(key: key);
 
   @override
@@ -11,7 +17,17 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-   
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  String get _email => _emailController.text;
+  String get _password => _passwordController.text;
+
+  bool _submitted = false;
+  bool _isLoading = false;
+
   void _registerForm(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -21,7 +37,36 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  bool checkBoxValue = false;
+  void _submit() async {
+    setState(() {
+      _submitted = true;
+      _isLoading = true;
+    });
+    try {
+      final auth = Provider.of<AuthBase>(context, listen: false);
+
+      await auth.createUserWithEmailAndPassword(_email, _password);
+     // _registerForm(context);
+      Navigator.of(context).pop();
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(
+        title: 'Sign in failed',
+        exception: e,
+      ).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _emailEditingComplete() {
+    final newFocus = widget.emailValidator.isValid(_email)
+        ? _passwordFocusNode
+        : _emailFocusNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
+
   double _height;
   double _width;
   double _pixelRatio;
@@ -53,23 +98,27 @@ class _CreateAccountState extends State<CreateAccount> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-               // welcomeImage(),
+                // welcomeImage(),
 
                 SizedBox(
                   height: _height / 8,
                 ),
 
                 //orsignUPText(),
-                
+
                 Padding(
                   padding: const EdgeInsets.all(22.0),
                   child: Column(
                     children: <Widget>[
-                       enterEmailTextRow(),
-                       SizedBox(
-                  height: 10,
-                ),
-                      emailTextFormField(),
+                      enterEmailTextRow(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _buildEmailTextField(),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      _buildPasswordTextField()
                     ],
                   ),
                 ),
@@ -113,28 +162,66 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-Widget enterEmailTextRow(){
-  return Container(
-    alignment: Alignment.topLeft,
-    child: Padding(
-      padding: const EdgeInsets.only(left:10.0),
-      child: Text(
-        
-              "Enter Email to continue ",
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black45,
-                  fontSize: _large ? 14 : (_medium ? 13 : 12)),
-            ),
-    ),
-  );
-}
+  Widget enterEmailTextRow() {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10.0),
+        child: Text(
+          "Enter Email to continue ",
+          style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.black45,
+              fontSize: _large ? 14 : (_medium ? 13 : 12)),
+        ),
+      ),
+    );
+  }
 
-  Widget emailTextFormField() {
-    return CustomTextField(
+  TextFormField _buildPasswordTextField() {
+    bool showErrorText =
+        _submitted && !widget.passwordValidator.isValid(_password);
+    return TextFormField(
+      controller: _passwordController,
+      focusNode: _passwordFocusNode,
+      decoration: InputDecoration(
+        
+        labelText: 'Password',
+        errorText: showErrorText ? widget.invalidPasswordErrorText : null,
+        enabled: _isLoading == false,
+        prefixIcon: Icon(Icons.lock, color: Colors.orange[300], size: 24),
+      ),
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      onChanged: (password) => _updateState(),
+      onEditingComplete: _submit,
+    );
+  }
+
+  TextFormField _buildEmailTextField() {
+    bool showErrorText = _submitted && !widget.emailValidator.isValid(_email);
+    return TextFormField(
+      controller: _emailController,
+      focusNode: _emailFocusNode,
+      
+      decoration: InputDecoration(
+        labelText: 'Email',
+        hintText: 'test@test.com',
+        
+        errorText: showErrorText ? widget.invalidEmailErrorText : null,
+        prefixIcon: Icon(
+          Icons.email,
+          color: Colors.orange[300],
+          size: 24,
+        ),
+        enabled: _isLoading == false,
+      ),
+      autocorrect: false,
       keyboardType: TextInputType.emailAddress,
-      icon: Icons.email,
-      hint: "Email ID",
+      textInputAction: TextInputAction.next,
+      textAlign: TextAlign.justify,
+      onChanged: (email) => _updateState(),
+      onEditingComplete: _emailEditingComplete,
     );
   }
 
@@ -242,12 +329,12 @@ Widget enterEmailTextRow(){
         elevation: 2,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-        onPressed:()=>_registerForm(context),
+        onPressed: () => _submit(),
         textColor: Colors.blue,
         color: Colors.white,
         padding: EdgeInsets.all(0.0),
         child: Container(
-         // color: Colors.deepPurple[200],
+          // color: Colors.deepPurple[200],
           alignment: Alignment.center,
 //        height: _height / 20,
           width:
@@ -256,11 +343,11 @@ Widget enterEmailTextRow(){
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             border: Border.all(
               width: 0,
-             // color: Colors.deepPurple,
+              // color: Colors.deepPurple,
             ),
-             gradient:  LinearGradient(
-                    colors: [Colors.deepPurple[100], Colors.deepPurple],
-                  ),
+            gradient: LinearGradient(
+              colors: [Colors.deepPurple[100], Colors.deepPurple],
+            ),
           ),
           padding: const EdgeInsets.all(12.0),
           child: Text(
@@ -305,5 +392,9 @@ Widget enterEmailTextRow(){
         ],
       ),
     );
+  }
+
+  void _updateState() {
+    setState(() {});
   }
 }

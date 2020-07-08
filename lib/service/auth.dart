@@ -1,78 +1,131 @@
+import 'package:Centralize/constants/constants.dart';
+import 'package:Centralize/screens/authentication/registerForm.dart';
+import 'package:Centralize/service/createUserDatabase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/framework.dart';
 //import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class User {
- User(
-      {@required this.uid,
-      @required this.photoUrl,
-      @required this.displayName});
-  final String uid;
-  final String photoUrl;
-  final String displayName;
-}
+
+CreateUserDatabase user;
+// class User {
+//   User(
+//       {@required this.uid,
+//       @required this.photoUrl,
+//       this.userName,
+//       @required this.displayName});
+//   final String uid;
+//   String userName;
+//   final String photoUrl;
+//   final String displayName;
+// }
 
 abstract class AuthBase {
-  Stream<User> get onAuthStateChanged;
-  Future<User> currentUser();
-  Future<User> signInAnonymously();
-  Future<User> signInWithEmailAndPassword(String email, String password);
-  Future<User> createUserWithEmailAndPassword(String email, String password);
-  Future<User> signInWithGoogle();
- // Future<User> signInWithFacebook();
+  Stream<CreateUserDatabase> get onAuthStateChanged;
+  Future<CreateUserDatabase> currentUser();
+  Future<void> updateUserName(String username);
+  Future<CreateUserDatabase> signInAnonymously();
+  Future<CreateUserDatabase> signInWithEmailAndPassword(String email, String password);
+  Future<CreateUserDatabase> createUserWithEmailAndPassword(String email, String password);
+  Future<CreateUserDatabase> signInWithGoogle(BuildContext context);
+  // Future<User> signInWithFacebook();
   Future<void> signOut();
 }
 
 class Auth implements AuthBase {
+  final DateTime timestamp = DateTime.now();
+  final usersRef = Firestore.instance.collection('users');
   final _firebaseAuth = FirebaseAuth.instance;
 
-  User _userFromFirebase(FirebaseUser user) {
+  CreateUserDatabase _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
     }
-    return User(
+    return CreateUserDatabase(
+
       uid: user.uid,
-      displayName: user.displayName,
-      photoUrl: user.photoUrl,
+      // displayName: user.displayName,
+      // photoURL: user.photoUrl,
+
+      
     );
   }
+@override
+   Future<void> updateUserName(String username){
+     
+//  FirebaseUser checkuser = ;
+//     await CreateUserDatabase(uid: checkuser.uid).updateUserData(
+//         checkuser.displayName,
+//         checkuser.providerId,
+//         checkuser.email,
+//         checkuser.photoUrl,
+//         checkuser.uid,
+//         " ",
+//         //timestamp
+//         );
+   }
 
   @override
-  Stream<User> get onAuthStateChanged {
+  Stream<CreateUserDatabase> get onAuthStateChanged {
+    print("here");
     return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
   }
 
   @override
-  Future<User> currentUser() async {
+  Future<CreateUserDatabase> currentUser() async {
     final user = await _firebaseAuth.currentUser();
     return _userFromFirebase(user);
   }
 
   @override
-  Future<User> signInAnonymously() async {
+  Future<CreateUserDatabase> signInAnonymously() async {
     final authResult = await _firebaseAuth.signInAnonymously();
     return _userFromFirebase(authResult.user);
   }
 
   @override
-  Future<User> signInWithEmailAndPassword(String email, String password) async {
+  Future<CreateUserDatabase> signInWithEmailAndPassword(String email, String password) async {
     final authResult = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+    FirebaseUser checkuser = authResult.user;
+    await CreateUserDatabase(uid: checkuser.uid).updateUserData(
+        checkuser.displayName,
+        checkuser.providerId,
+        checkuser.email,
+        checkuser.photoUrl,
+        checkuser.uid,
+        " ",
+       timestamp,
+        );
+
     return _userFromFirebase(authResult.user);
   }
 
   @override
-  Future<User> createUserWithEmailAndPassword(
+  Future<CreateUserDatabase> createUserWithEmailAndPassword(
       String email, String password) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+    FirebaseUser checkuser = authResult.user;
+    await CreateUserDatabase(uid: checkuser.uid).updateUserData(
+        checkuser.displayName,
+        checkuser.providerId,
+        checkuser.email,
+        checkuser.photoUrl,
+        checkuser.uid,
+        " ",
+        timestamp,
+        );
     return _userFromFirebase(authResult.user);
   }
 
   @override
-  Future<User> signInWithGoogle() async {
+  Future<CreateUserDatabase> signInWithGoogle(BuildContext context) async {
     final googleSignIn = GoogleSignIn();
     final googleAccount = await googleSignIn.signIn();
     if (googleAccount != null) {
@@ -84,7 +137,26 @@ class Auth implements AuthBase {
             accessToken: googleAuth.accessToken,
           ),
         );
-        return _userFromFirebase(authResult.user);
+        FirebaseUser checkuser = authResult.user;
+        DocumentSnapshot doc = await usersRef.document(checkuser.uid).get();
+        print(doc.documentID);
+        if (!doc.exists) {
+          final username = await _getUserName(context);
+          print("NO Object found");
+
+         //final username = await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterForm()));
+          await CreateUserDatabase(uid: checkuser.uid).updateUserData(
+              checkuser.displayName,
+              username,
+              checkuser.email,
+              checkuser.photoUrl,
+              checkuser.uid,
+              " ",
+              timestamp,
+              );
+        } 
+          return _userFromFirebase(authResult.user);
+        
       } else {
         throw PlatformException(
           code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
@@ -97,6 +169,14 @@ class Auth implements AuthBase {
         message: 'Sign in aborted by user',
       );
     }
+  }
+
+  _getUserName(BuildContext context) async{
+    print('Inside this');
+    final username= null;//await Navigator.of(context).pushNamed(REGISTER);
+    return username;
+  //  return Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => RegisterForm()));
   }
 
   // @override

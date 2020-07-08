@@ -1,3 +1,6 @@
+import 'package:Centralize/screens/MainScreen.dart';
+import 'package:Centralize/screens/authentication/registerForm.dart';
+import 'package:Centralize/screens/authentication/sign_in/signin.dart';
 import 'package:Centralize/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +32,12 @@ class MyApp extends StatelessWidget {
           title: Constants.appName,
           theme: Constants.lightTheme,
           darkTheme: Constants.darkTheme,
-         
+           routes: <String, WidgetBuilder>{
+            SPLASH_SCREEN: (BuildContext context) => SplashScreen(),
+         MAIN_SCREEN: (BuildContext context) => MainScreen(),
+         SIGN_IN: (BuildContext context) => SignInPage(),
+          REGISTER : (BuildContext context) => RegisterForm(),
+           },
           initialRoute: SPLASH_SCREEN,
           home: ClipRRect(
             borderRadius: BorderRadius.circular(20),
