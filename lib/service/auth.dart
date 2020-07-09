@@ -47,12 +47,12 @@ class Auth implements AuthBase {
     }
     return CreateUserDatabase(
       uid: user.uid,
-      userName: null,
-      displayName: user.displayName,
-      photoURL: user.photoUrl,
-      createdOn: timestamp,
-      email: user.email,
-      bio: " ",
+      // userName: null,
+      // displayName: user.displayName,
+      // photoURL: user.photoUrl,
+      // createdOn: timestamp,
+      // email: user.email,
+      // bio: " ",
     );
   }
 

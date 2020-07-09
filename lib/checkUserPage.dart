@@ -18,34 +18,45 @@ class CheckUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final String userID = users.uid;
-   String usName;
+    String usName;
     final userRef = Firestore.instance.collection('users');
     // users = auth.currentUser();
 
     return StreamBuilder(
-      stream: userRef.snapshots(), // auth.onAuthStateChanged,
+        stream: userRef.snapshots(), // auth.onAuthStateChanged,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) 
-         {
+          if (snapshot.hasData) //connectionState == ConnectionState.active)
+          {
             // CreateUserDatabase user = snapshot.data;
             userRef.document(userID).get().then((DocumentSnapshot doc) {
-             usName = doc.data["userName"];
-            }
-            );
+              print(doc.data);
+              usName = doc.data['userName'];
+              if (usName == null) {
+                print("Not yet created");
+                return RegisterForm(); // RegisterForm();
+              }
+              if (usName != null) {
+                //  Navigator.of(context).pushReplacement((context), Ma) MainScreen();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                );
+              }
+              //  usName = doc.data["userName"];
+            });
 
-            if (usName == null) {
-              return RegisterForm(); // RegisterForm();
-            }
-            if (usName != null) {
-              return MainScreen();
-            }
-          } else {
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            // if (usName == null) {
+            //   print("Not yet created");
+            //   return RegisterForm(); // RegisterForm();
+            // }
+            // if (usName != null) {
+            //   return MainScreen();
+            // }
           }
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         });
   }
 }
