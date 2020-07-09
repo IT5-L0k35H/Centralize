@@ -2,6 +2,7 @@ import 'package:Centralize/screens/MainScreen.dart';
 import 'package:Centralize/screens/authentication/registerForm.dart';
 import 'package:Centralize/screens/authentication/sign_in/signin.dart';
 import 'package:Centralize/service/auth.dart';
+import 'package:Centralize/service/createUserDatabase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Centralize/utils/const.dart';
@@ -27,7 +28,10 @@ class MyApp extends StatelessWidget {
 
     return Provider<AuthBase>(
       create: (context) => Auth(),
-      child: MaterialApp(
+      child:Provider<CreateUserDatabase>(
+        create: (context) => CreateUserDatabase(),
+        child:
+       MaterialApp(
           debugShowCheckedModeBanner: false,
           title: Constants.appName,
           theme: Constants.lightTheme,
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
           home: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: SplashScreen(),
-          )),
+          )),)
     );
   }
 }
