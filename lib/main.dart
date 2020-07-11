@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
     return Provider<AuthBase>(
       create: (context) => Auth(),
-      child:Provider<CreateUserDatabase>(
+      child: Provider<CreateUserDatabase>(
         create: (context) => CreateUserDatabase(),
         child:
        MaterialApp(
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           darkTheme: Constants.darkTheme,
            routes: <String, WidgetBuilder>{
             SPLASH_SCREEN: (BuildContext context) => SplashScreen(),
-         MAIN_SCREEN: (BuildContext context) => MainScreen(),
+        // MAIN_SCREEN: (BuildContext context) => MainScreen(),
          SIGN_IN: (BuildContext context) => SignInPage(),
           REGISTER : (BuildContext context) => RegisterForm(),
            },
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           home: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: SplashScreen(),
-          )),)
-    );
+          )),
+    ));
   }
 }

@@ -3,11 +3,15 @@ import 'package:Centralize/screens/exploreScreen/explore.dart';
 import 'package:Centralize/screens/homeScreen/home.dart';
 import 'package:Centralize/screens/notification/notifications.dart';
 import 'package:Centralize/screens/userServices/myservices.dart';
+import 'package:Centralize/service/auth.dart';
+import 'package:Centralize/service/createUserDatabase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key}) : super(key: key);
-
+  // MainScreen(this.users);
+  // final CreateUserDatabase users;
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -15,6 +19,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController;
   int _page = 0;
+  final userRef = Firestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
