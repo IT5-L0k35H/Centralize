@@ -10,6 +10,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 CreateUserDatabase user;
+
 // class User {
 //   User(
 //       {@required this.uid,
@@ -25,6 +26,7 @@ CreateUserDatabase user;
 abstract class AuthBase {
   Stream<CreateUserDatabase> get onAuthStateChanged;
   Future<CreateUserDatabase> currentUser();
+  Future<CreateUserDatabase> currentUserDetail();
   Future<void> updateUserName(CreateUserDatabase user, String username);
   Future<CreateUserDatabase> signInAnonymously();
   Future<CreateUserDatabase> signInWithEmailAndPassword(
@@ -47,12 +49,30 @@ class Auth implements AuthBase {
     }
     return CreateUserDatabase(
       uid: user.uid,
-      // userName: null,
-      // displayName: user.displayName,
+
+      //displayName: user.displayName,
       // photoURL: user.photoUrl,
       // createdOn: timestamp,
       // email: user.email,
       // bio: " ",
+    );
+  }
+
+  CreateUserDatabase _userFromOurDatabase(CreateUserDatabase user) {
+    if (user == null) {
+      return null;
+    }
+    return CreateUserDatabase(
+      uid: user.uid,
+      followers: user.followers,
+      following: user.following,
+      userName: user.userName,
+
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      // createdOn: timestamp,
+      // email: user.email,
+      bio: user.bio,
     );
   }
 
@@ -83,6 +103,13 @@ class Auth implements AuthBase {
   Future<CreateUserDatabase> currentUser() async {
     final user = await _firebaseAuth.currentUser();
     return _userFromFirebase(user);
+  }
+
+  @override
+  Future<CreateUserDatabase> currentUserDetail() async {
+    final user = await _firebaseAuth.currentUser();
+    final userid = _userFromFirebase(user);
+    return _userFromOurDatabase(userid);
   }
 
   @override
@@ -127,7 +154,10 @@ class Auth implements AuthBase {
         checkuser.email,
         checkuser.photoUrl,
         checkuser.uid,
-        " ",
+        null,
+        null,
+        '0',
+        '0',
         timestamp,
       );
     }
@@ -152,15 +182,19 @@ class Auth implements AuthBase {
         if (!doc.exists) {
           print("Creating new google user");
           final username = null;
+          final bio=null;
+          final profession=null;
           await CreateUserDatabase(uid: checkuser.uid).updateUserData(
-            checkuser.displayName,
-            username, //checkuser.providerId"",
-            checkuser.email,
-            checkuser.photoUrl,
-            checkuser.uid,
-            " ",
-            timestamp,
-          );
+              checkuser.displayName,
+              username,
+              checkuser.email,
+              checkuser.photoUrl,
+              checkuser.uid,
+              bio,
+              profession,
+              '0',
+              '0',
+              timestamp);
         }
         return _userFromFirebase(authResult.user);
       } else {

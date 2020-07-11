@@ -33,8 +33,9 @@ class CheckUserPage extends StatelessWidget {
               usName = doc.data['userName'];
               if (usName == null) {
                 print("Not yet created");
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => RegisterForm())); // RegisterForm();
+                 Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) =>  RegisterForm()),
+                ); // RegisterForm();
               }
               if (usName != null) {
                 //  Navigator.of(context).pushReplacement((context), Ma) MainScreen();

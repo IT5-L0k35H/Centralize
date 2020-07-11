@@ -1,3 +1,4 @@
+import 'package:Centralize/screens/authentication/sign_in/signin.dart';
 import 'package:Centralize/service/auth.dart';
 import 'package:Centralize/widgets/platform_alert_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Drawar extends StatelessWidget {
- 
   Future<void> _signOut(BuildContext context) async {
     try {
-       final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signOut();
+      final auth = Provider.of<AuthBase>(context, listen: false);
+      await auth.signOut().then((value) => Navigator.pushReplacement(
+            context,
+            new MaterialPageRoute(builder: (context) => SignInPage()),
+          ));
     } catch (e) {
       print(e.toString());
     }
@@ -22,6 +25,7 @@ class Drawar extends StatelessWidget {
       cancelActionText: 'Cancel',
       defaultActionText: 'Logout',
     ).show(context);
+
     if (didRequestSignOut == true) {
       _signOut(context);
     }
@@ -42,12 +46,7 @@ class Drawar extends StatelessWidget {
             _createDrawerItem(
               icon: Icons.contacts,
               text: 'Posts',
-              onTap: () {
-                //   Navigator.push(
-                //     context,
-                //      new MaterialPageRoute(builder: (context) => new SettingNav("Setting")),
-                // );
-              },
+              onTap: () {},
 //              onTap: () {
 //                Navigator.push(
 //                  context,
@@ -70,10 +69,15 @@ class Drawar extends StatelessWidget {
             _createDrawerItem(icon: Icons.account_box, text: 'Help'),
             _createDrawerItem(icon: Icons.stars, text: 'Contact us'),
             Divider(height: 1.2, color: Colors.black45),
-            _createDrawerItem(icon: Icons.bug_report, text: 'Log Out', onTap: () => _confirmSignOut(context),),
+            _createDrawerItem(
+                icon: Icons.bug_report,
+                text: 'Log Out',
+                onTap: () => {
+                      _confirmSignOut(context),
+                    }),
             ListTile(
               title: Text('0.0.1'),
-              onTap:(){},
+              onTap: () {},
             ),
           ],
         ),
@@ -95,7 +99,7 @@ Widget _createHeader() {
             const Color(0xFFcdccff),
             const Color(0xFF6712e6)
           ], // whitish to gray
-         // tileMode: TileMode.repeated, // repeats the gradient over the canvas
+          // tileMode: TileMode.repeated, // repeats the gradient over the canvas
         ),
         /* image: DecorationImage(
               fit: BoxFit.fill, 

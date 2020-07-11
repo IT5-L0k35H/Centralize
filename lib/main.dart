@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           darkTheme: Constants.darkTheme,
            routes: <String, WidgetBuilder>{
             SPLASH_SCREEN: (BuildContext context) => SplashScreen(),
-         MAIN_SCREEN: (BuildContext context) => MainScreen(),
+        // MAIN_SCREEN: (BuildContext context) => MainScreen(),
          SIGN_IN: (BuildContext context) => SignInPage(),
           REGISTER : (BuildContext context) => RegisterForm(),
            },
