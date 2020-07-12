@@ -28,11 +28,23 @@ abstract class AuthBase {
   Future<CreateUserDatabase> currentUser();
   Future<CreateUserDatabase> currentUserDetail();
   Future<void> updateUserName(CreateUserDatabase user, String username);
+  Future<void> updateProfile(
+    CreateUserDatabase user,
+    String displayName,
+    String userName,
+    String profession,
+    String bio,
+  );
   Future<CreateUserDatabase> signInAnonymously();
   Future<CreateUserDatabase> signInWithEmailAndPassword(
       String email, String password);
   Future<CreateUserDatabase> createUserWithEmailAndPassword(
-      BuildContext context, String email, String password);
+    BuildContext context,
+    String email,
+    String password,
+  );
+  Future<bool> _isEmailVerified();
+  Future<void> _changePassword(String password);
   Future<CreateUserDatabase> signInWithGoogle(BuildContext context);
   // Future<User> signInWithFacebook();
   Future<void> signOut();
@@ -91,6 +103,22 @@ class Auth implements AuthBase {
 //         " ",
 //         //timestamp
 //         );
+  }
+
+  @override
+  Future<void> updateProfile(
+    CreateUserDatabase user,
+    String displayName,
+    String userName,
+    String profession,
+    String bio,
+  ) async {
+    usersRef.document(user.uid).updateData({
+      "userName": userName,
+      "displayName": displayName,
+      "profession": profession,
+      "bio": bio,
+    });
   }
 
   @override
@@ -182,8 +210,8 @@ class Auth implements AuthBase {
         if (!doc.exists) {
           print("Creating new google user");
           final username = null;
-          final bio=null;
-          final profession=null;
+          final bio = null;
+          final profession = null;
           await CreateUserDatabase(uid: checkuser.uid).updateUserData(
               checkuser.displayName,
               username,
@@ -211,12 +239,21 @@ class Auth implements AuthBase {
     }
   }
 
-  _getUserName(BuildContext context) async {
-    print('Inside this');
-    final username = null; //await Navigator.of(context).pushNamed(REGISTER);
-    return username;
-    //  return Navigator.push(
-    //       context, MaterialPageRoute(builder: (context) => RegisterForm()));
+  @override
+  Future<bool> _isEmailVerified() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return user.isEmailVerified;
+  }
+
+  @override
+  Future<void> _changePassword(String password) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    user.updatePassword(password).then((_) {
+      print("Succesfull changed password");
+    }).catchError((error) {
+      print("Password can't be changed" + error.toString());
+    });
+    return null;
   }
 
   // @override

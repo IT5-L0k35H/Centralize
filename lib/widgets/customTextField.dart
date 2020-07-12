@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 
-// class CustomTextField extends StatelessWidget {
-//   CustomTextField(
+// class CustomTextField2 extends StatelessWidget {
+//   CustomTextField2(
 //       {this.icon,
 //       this.hint,
 //       this.textEditingController,

@@ -1,3 +1,4 @@
+import 'package:Centralize/screens/profile/editProfileForm.dart';
 import 'package:Centralize/service/auth.dart';
 import 'package:Centralize/service/createUserDatabase.dart';
 import 'package:Centralize/widgets/avatar.dart';
@@ -24,7 +25,6 @@ class _UserProfile extends State<UserProfile> {
   String currentUserID;
   bool isOwner;
 
-
   _getCurrentUser(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     CreateUserDatabase currentUser = await auth.currentUser();
@@ -37,7 +37,7 @@ class _UserProfile extends State<UserProfile> {
   }
 
   profilePageBuilder() {
-   _getCurrentUser(context);
+    _getCurrentUser(context);
     print('$userID is active profile user');
     // isOwner = userID == currentUserID;
     // print(isOwner);
@@ -45,11 +45,14 @@ class _UserProfile extends State<UserProfile> {
       future: userRef.document(userID).get(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: Center(child: CircularProgressIndicator()));
         }
         CreateUserDatabase user =
             CreateUserDatabase.fromDocument(snapshot.data);
-       
+
         return Padding(
           padding: EdgeInsets.all(0.0),
           child: Stack(
@@ -130,9 +133,9 @@ class _UserProfile extends State<UserProfile> {
                                       boxShadow: [
                                         BoxShadow(
                                             color: Color.fromRGBO(45, 48, 58,
-                                                0.05999999865889549),
+                                                0.12),
                                             offset: Offset(0, 3),
-                                            blurRadius: 10)
+                                            blurRadius: 20)
                                       ],
                                       color: Color.fromRGBO(255, 255, 255, 5),
                                     ))),
@@ -165,24 +168,42 @@ class _UserProfile extends State<UserProfile> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      user.userName, //'Professional Dancer',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(112, 112, 112, 1),
-                                          fontFamily: 'Poppins',
-                                          fontSize: 14,
-                                          letterSpacing:
-                                              1.20 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.w600,
-                                          height: 1),
+                                    Row(
+                                      children: [
+                                         Text(
+                                          '@',//'Professional Dancer',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.deepPurple,
+                                              fontFamily: 'Poppins',
+                                              fontSize: 14,
+
+                                              letterSpacing:
+                                                  1.20 /*percentages not used in flutter. defaulting to zero*/,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1),
+                                        ),
+                                        Text(
+                                          user.userName, //'Professional Dancer',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.deepPurple,
+                                              fontFamily: 'Poppins',
+                                              fontSize: 14,
+                                              letterSpacing:
+                                                  1.20 /*percentages not used in flutter. defaulting to zero*/,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(
                                       height: 10,
                                     ),
                                     Text(
-                                      'Professional Dancer',
+                                      user.profession,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           color:
@@ -449,12 +470,11 @@ class _UserProfile extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-     _getCurrentUser(context);
+    _getCurrentUser(context);
     return SafeArea(
       child: Scaffold(
           body: ListView(
         children: <Widget>[
-           
           profilePageBuilder(),
         ],
       )),
@@ -462,98 +482,92 @@ class _UserProfile extends State<UserProfile> {
   }
 
   buttonMenu() {
-
-    
     if (isOwner) {
-       return FlatButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+      return FlatButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        color: Colors.deepOrange[400],
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              fullscreenDialog: true,
+              builder: (context) => EditProfileForm(userID),
+            ),
+          );
+        },
+        child: Center(
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(
+                fontFamily: 'Comfortaa',
+                fontWeight: FontWeight.w400,
+                fontSize: 15.0,
+                color: Colors.white),
           ),
-          color: Color.fromRGBO(98, 101, 228, 0.8),
-          onPressed: () {},
-          child: Row(
-            children: <Widget>[
-              Text(
-                'Edit Profile',
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
-                    color: Colors.white),
-              ),
-              SizedBox(
-                width: 7,
-              ),
-              Icon(
-                Icons.mail_outline,
-                color: Colors.white,
-                size: 24.0,
-              ),
-            ],
-          ));
-    
-        } 
-   
-   return Container(
-        child: Row(
-          children: [
-            FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                color: Color.fromRGBO(98, 101, 228, 0.8),
-                onPressed: () {},
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      'Follow',
-                      style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.white),
-                    ),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    Icon(
-                      Icons.person_add,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                  ],
-                )),
-                SizedBox(width:30 ),
-            FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                color: Color.fromRGBO(98, 101, 228, 0.8),
-                onPressed: () {},
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      'Message',
-                      style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.white),
-                    ),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    Icon(
-                      Icons.mail_outline,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                  ],
-                )),
-          ],
         ),
       );
-  
+    }
+
+    return Container(
+      child: Row(
+        children: [
+          FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: Color.fromRGBO(98, 101, 228, 0.8),
+              onPressed: () {},
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Follow',
+                    style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
+                        color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  Icon(
+                    Icons.person_add,
+                    color: Colors.white,
+                    size: 24.0,
+                  ),
+                ],
+              )),
+          SizedBox(width: 30),
+          FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: Color.fromRGBO(98, 101, 228, 0.8),
+              onPressed: () {},
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Message',
+                    style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
+                        color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  Icon(
+                    Icons.mail_outline,
+                    color: Colors.white,
+                    size: 24.0,
+                  ),
+                ],
+              )),
+        ],
+      ),
+    );
   }
 
   Widget _checkbio(CreateUserDatabase user) {

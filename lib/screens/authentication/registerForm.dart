@@ -146,7 +146,7 @@ await auth.updateUserName(user, username);
       onSaved: (newValue) => username = newValue,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+       
         labelText: "UserName",
         labelStyle: TextStyle(fontSize: 15.0),
         hintText: "Must be atleast 5 characters",

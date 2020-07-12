@@ -45,6 +45,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
+            backgroundColor: Colors.white,
             leading: Builder(
       builder: (BuildContext context) {
         return IconButton(
@@ -52,6 +53,7 @@ class _HomeState extends State<Home> {
           icon: const Icon(
             //CustomIcons.menu,
             Icons.short_text,
+            color: Colors.black87,
           ),
           onPressed: () {
             Scaffold.of(context).openDrawer();
@@ -74,6 +76,7 @@ class _HomeState extends State<Home> {
         iconSize: 24.0,
         icon: Icon(
           Icons.search,
+           color: Colors.black87,
         ),
         onPressed: () => {},
       ),
@@ -81,6 +84,7 @@ class _HomeState extends State<Home> {
         iconSize: 35.0,
         icon: Icon(
           Icons.account_circle,
+          color: Colors.black87,
         ),
         onPressed: () => Navigator.push(context,
         MaterialPageRoute(builder: (context) => UserProfile(myuserID)))),

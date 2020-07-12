@@ -37,14 +37,15 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         bottomNavigationBar: Container(
+         
             decoration: BoxDecoration(
-              color: Colors.pink,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black12, spreadRadius: 0, blurRadius: 10),
               ],
+                 color: Colors.white,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
@@ -54,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
               child: new Theme(
                 data: Theme.of(context).copyWith(
                   // sets the background color of the `BottomNavigationBar`
-                  canvasColor: Theme.of(context).primaryColor,
+                  canvasColor: Colors.white,
                   // sets the active color of the `BottomNavigationBar` if `Brightness` is light
                   primaryColor: Theme.of(context).accentColor,
 
