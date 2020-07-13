@@ -44,6 +44,22 @@ class _EditProfileFormState extends State<EditProfileForm> {
   String userID;
 
   Color color;
+  bool isLoading=false;
+
+@override
+void initState() { 
+  super.initState();
+  getUser();
+}
+
+getUser() async{
+  setState(() {
+    isLoading =true;
+  });
+
+  DocumentSnapshot doc = await userRef.document(userID).get();
+}
+
 
   _updateProfile() async {
     _formKey.currentState.save();

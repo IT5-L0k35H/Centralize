@@ -72,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         title: Text(
                           "Home",
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 12),
                         ),
                         activeIcon: Icon(
                           Icons.home,
@@ -83,7 +83,7 @@ class _MainScreenState extends State<MainScreen> {
                           Icons.explore,
                           size: 24,
                         ),
-                        title: Text("Explore", style: TextStyle(fontSize: 10)),
+                        title: Text("Explore", style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.explore,
                           size: 24,
@@ -93,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
                           Icons.chat_bubble_outline,
                           size: 24,
                         ),
-                        title: Text("Message", style: TextStyle(fontSize: 10)),
+                        title: Text("Message", style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.chat_bubble,
                           size: 24,
@@ -104,17 +104,17 @@ class _MainScreenState extends State<MainScreen> {
                           size: 24,
                         ),
                         title: Text("Notification",
-                            style: TextStyle(fontSize: 10)),
+                            style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.notifications,
                           size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
-                          Icons.work,
+                          Icons.card_travel,
                           size: 24,
                         ),
-                        title: Text("Services", style: TextStyle(fontSize: 10)),
+                        title: Text("Services", style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.work,
                           size: 24,
