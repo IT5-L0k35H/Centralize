@@ -572,7 +572,7 @@ print(user.displayName);
             fontWeight: FontWeight.normal,
             height: 1),
       );
-    } else {
+    } 
       return Text(
         'Add bio',
         textAlign: TextAlign.left,
@@ -583,7 +583,7 @@ print(user.displayName);
             fontWeight: FontWeight.normal,
             height: 1),
       );
-    }
+   
   }
   Widget _checkprofession(CreateUserDatabase user) {
     if (user.profession != null) {
@@ -597,7 +597,7 @@ print(user.displayName);
             fontWeight: FontWeight.normal,
             height: 1),
       );
-    } else {
+    } 
       return Text(
         'Add Profession',
         textAlign: TextAlign.left,
@@ -608,7 +608,7 @@ print(user.displayName);
             fontWeight: FontWeight.normal,
             height: 1),
       );
-    }
+  
   }
 
   Widget getWorks(String imgPath, String name) {
