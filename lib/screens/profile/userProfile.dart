@@ -24,6 +24,7 @@ class _UserProfile extends State<UserProfile> {
   String userID;
   String currentUserID;
   bool isOwner;
+    CreateUserDatabase user;
 
   _getCurrentUser(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -50,9 +51,9 @@ class _UserProfile extends State<UserProfile> {
               width: double.infinity,
               child: Center(child: CircularProgressIndicator()));
         }
-        CreateUserDatabase user =
+        user =
             CreateUserDatabase.fromDocument(snapshot.data);
-
+print(user.displayName);
         return Padding(
           padding: EdgeInsets.all(0.0),
           child: Stack(
@@ -202,19 +203,8 @@ class _UserProfile extends State<UserProfile> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      user.profession,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(112, 112, 112, 1),
-                                          fontFamily: 'Poppins',
-                                          fontSize: 14,
-                                          letterSpacing:
-                                              1.20 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.normal,
-                                          height: 1),
-                                    )
+                                     _checkprofession(user),
+                                   
                                   ],
                                 )),
                             Positioned(
@@ -585,6 +575,31 @@ class _UserProfile extends State<UserProfile> {
     } else {
       return Text(
         'Add bio',
+        textAlign: TextAlign.left,
+        style: TextStyle(
+            color: Colors.black87,
+            fontFamily: 'Alef',
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            height: 1),
+      );
+    }
+  }
+  Widget _checkprofession(CreateUserDatabase user) {
+    if (user.profession != null) {
+      return Text(
+        user.profession,
+        textAlign: TextAlign.left,
+        style: TextStyle(
+            color: Colors.black87,
+            fontFamily: 'Alef',
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            height: 1),
+      );
+    } else {
+      return Text(
+        'Add Profession',
         textAlign: TextAlign.left,
         style: TextStyle(
             color: Colors.black87,
