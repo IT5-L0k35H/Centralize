@@ -37,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         bottomNavigationBar: Container(
-         
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20)),
@@ -45,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
                 BoxShadow(
                     color: Colors.black12, spreadRadius: 0, blurRadius: 10),
               ],
-                 color: Colors.white,
+              color: Colors.white,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
@@ -69,16 +68,14 @@ class _MainScreenState extends State<MainScreen> {
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.home,
-                        
                           size: 24,
                         ),
                         title: Text(
                           "Home",
-                          style: TextStyle(fontSize: 10),
+                          style: TextStyle(fontSize: 12),
                         ),
                         activeIcon: Icon(
                           Icons.home,
-                          
                           size: 24,
                         )),
                     BottomNavigationBarItem(
@@ -86,47 +83,40 @@ class _MainScreenState extends State<MainScreen> {
                           Icons.explore,
                           size: 24,
                         ),
-                        title: Text("Explore", style: TextStyle(fontSize: 10)),
+                        title: Text("Explore", style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.explore,
                           size: 24,
-                         
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.chat_bubble_outline,
-                          
                           size: 24,
                         ),
-                        title: Text("Message", style: TextStyle(fontSize: 10)),
+                        title: Text("Message", style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.chat_bubble,
-                         
                           size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.notifications_none,
-                         
                           size: 24,
                         ),
                         title: Text("Notification",
-                            style: TextStyle(fontSize: 10)),
+                            style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.notifications,
-                          
                           size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
-                          Icons.work,
-                         
+                          Icons.card_travel,
                           size: 24,
                         ),
-                        title: Text("Services", style: TextStyle(fontSize: 10)),
+                        title: Text("Services", style: TextStyle(fontSize: 12)),
                         activeIcon: Icon(
                           Icons.work,
-                         
                           size: 24,
                         )),
                   ],

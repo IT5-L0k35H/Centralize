@@ -6,10 +6,10 @@ class Constants{
 
 
   //Colors for theme
-  static Color lightPrimary = Colors.deepPurple[600];
+  static Color lightPrimary = Color.fromRGBO(99, 103, 255, 1);
   static Color darkPrimary = Color(0xff313131);
-  static Color lightAccent = Colors.deepPurpleAccent;
-  static Color darkAccent = Colors.purple;
+  static Color lightAccent = Color.fromRGBO(99, 103, 255, 1);
+  static Color darkAccent = Color.fromRGBO(99, 103, 255, 1);
   static Color lightBG = Colors.white;
   static Color darkBG = Color(0xff313131);
   static Color badgeColor = Colors.red;

@@ -85,7 +85,29 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
-       
+     
+    - family: PoiretOne
+      fonts:
+        - asset: assets/fonts/PoiretOne-Regular.ttf
+          weight: 400
+      
+ 
+    - family: Alef
+      fonts:
+        - asset: assets/fonts/Alef-Regular.ttf
+          weight: 400
+      
+
+    - family: Pompiere
+      fonts:
+        - asset: assets/fonts/Pompiere-Regular.ttf
+          weight: 400
+   
+    - family: VarelaRound
+      fonts:
+        - asset: assets/fonts/VarelaRound.ttf
+        
+        
           
   #      - asset: fonts/Schyler-Italic.ttf
   #         style: italic
