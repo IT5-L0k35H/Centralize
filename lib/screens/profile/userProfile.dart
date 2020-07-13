@@ -202,19 +202,7 @@ class _UserProfile extends State<UserProfile> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      user.profession,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(112, 112, 112, 1),
-                                          fontFamily: 'Poppins',
-                                          fontSize: 14,
-                                          letterSpacing:
-                                              1.20 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.normal,
-                                          height: 1),
-                                    )
+                                    _checkprofession(user),
                                   ],
                                 )),
                             Positioned(
@@ -582,7 +570,7 @@ class _UserProfile extends State<UserProfile> {
             fontWeight: FontWeight.normal,
             height: 1),
       );
-    } else {
+    } 
       return Text(
         'Add bio',
         textAlign: TextAlign.left,
@@ -593,7 +581,34 @@ class _UserProfile extends State<UserProfile> {
             fontWeight: FontWeight.normal,
             height: 1),
       );
+    
+  }
+
+
+  Widget _checkprofession(CreateUserDatabase user) {
+    if (user.profession != null) {
+      return Text(
+        user.profession,
+        textAlign: TextAlign.left,
+        style: TextStyle(
+            color: Colors.black87,
+            fontFamily: 'Alef',
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            height: 1),
+      );
     }
+      return Text(
+        'Add Profession',
+        textAlign: TextAlign.left,
+        style: TextStyle(
+            color: Colors.black87,
+            fontFamily: 'Alef',
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            height: 1),
+      );
+    
   }
 
   Widget getWorks(String imgPath, String name) {

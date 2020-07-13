@@ -37,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         bottomNavigationBar: Container(
-         
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20)),
@@ -45,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
                 BoxShadow(
                     color: Colors.black12, spreadRadius: 0, blurRadius: 10),
               ],
-                 color: Colors.white,
+              color: Colors.white,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
@@ -69,8 +68,7 @@ class _MainScreenState extends State<MainScreen> {
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.home,
-                          color: Colors.black45,
-                          size: 17,
+                          size: 24,
                         ),
                         title: Text(
                           "Home",
@@ -78,57 +76,48 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         activeIcon: Icon(
                           Icons.home,
-                          color: Colors.blue,
-                          size: 18,
+                          size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.explore,
-                          size: 17,
-                          color: Colors.black45,
+                          size: 24,
                         ),
                         title: Text("Explore", style: TextStyle(fontSize: 10)),
                         activeIcon: Icon(
                           Icons.explore,
-                          size: 17,
-                          color: Colors.black45,
+                          size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.chat_bubble_outline,
-                          color: Colors.black45,
-                          size: 17,
+                          size: 24,
                         ),
                         title: Text("Message", style: TextStyle(fontSize: 10)),
                         activeIcon: Icon(
                           Icons.chat_bubble,
-                          color: Colors.blue,
-                          size: 18,
+                          size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.notifications_none,
-                          color: Colors.black45,
-                          size: 17,
+                          size: 24,
                         ),
                         title: Text("Notification",
                             style: TextStyle(fontSize: 10)),
                         activeIcon: Icon(
                           Icons.notifications,
-                          color: Colors.blue,
-                          size: 18,
+                          size: 24,
                         )),
                     BottomNavigationBarItem(
                         icon: Icon(
                           Icons.work,
-                          color: Colors.black45,
-                          size: 17,
+                          size: 24,
                         ),
                         title: Text("Services", style: TextStyle(fontSize: 10)),
                         activeIcon: Icon(
                           Icons.work,
-                          color: Colors.blue,
-                          size: 18,
+                          size: 24,
                         )),
                   ],
                   onTap: navigationTapped,
